@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Bijoy Vai!</title>
+    <title>Happy Birthday Celebration</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&family=Poppins:wght@400;600&family=Hind+Siliguri:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
@@ -189,11 +189,7 @@
         <div class="box">
             <img src="" id="gallery-img" class="gallery-img">
             
-            <div class="name-badge">
-                RICHANA AKHTER JUI
-            </div>
-
-            <div class="caption-box">
+            <div class="name-badge dynamic-name"></div> <div class="caption-box">
                 <span id="gallery-caption"></span>
             </div>
         </div>
@@ -221,6 +217,9 @@
         //                 👇👇 কনফিগারেশন 👇👇
         // =================================================================
         const config = {
+            // 👇 নতুন অপশন: এখান থেকে পেজের টাইটেল পরিবর্তন করুন
+            pageTitle: "Happy Birthday - Richana Akther Jui", 
+            
             name: "Richana Akhter Jui",
             music: "song.mp3", 
 
@@ -234,7 +233,7 @@
             cap2: "স্মৃতিময় মুহূর্তগুলো... 📸",
 
             // টাইটেল (শেষের মেসেজ)
-            titleMsg: "🎉 Happy Birthday - Rinana Akhter Jui 🎉",
+            titleMsg: "🎉 Happy Birthday - Richana Akhter Jui 🎉",
             
             // মেইন বডি মেসেজ
             bodyMsg: `আজকের এই দিনটা শুধু একটা জন্মদিন না—
@@ -261,16 +260,19 @@
         // =================================================================
         
         document.addEventListener("DOMContentLoaded", () => {
-            // ডাটা লোড
+            // ১. টাইটেল সেট করা (নতুন)
+            document.title = config.pageTitle;
+
+            // ২. ডাটা লোড
             document.querySelectorAll('.dynamic-name').forEach(e => e.innerText = config.name);
             document.getElementById('bg-music').querySelector('source').src = config.music;
             document.getElementById('bg-music').load();
             document.getElementById('main-profile-img').src = config.profilePic;
             
-            // ব্যাকগ্রাউন্ড ইফেক্ট চালু
+            // ৩. ব্যাকগ্রাউন্ড ইফেক্ট চালু
             startBackgroundEffects();
 
-            // টাইমিং লজিক
+            // ৪. টাইমিং লজিক
             setTimeout(() => {
                 showPage('page-1');
                 setTimeout(() => {
@@ -452,6 +454,3 @@
     </script>
 </body>
 </html>
-
-
-
