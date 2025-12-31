@@ -166,7 +166,7 @@
     </div>
 
     <div class="page" id="page-countdown">
-        <div id="count-num">3</div>
+        <div id="count-num"></div>
     </div>
 
     <div class="page" id="page-2">
@@ -214,28 +214,36 @@
 
     <script>
         // =================================================================
-        //                 👇👇 কনফিগারেশন 👇👇
+        //                 👇👇 সময় কনফিগারেশন (Time Settings) 👇👇
+        // =================================================================
+        // এখানে সংখ্যা পরিবর্তন করে সময় সেট করুন। (1000 = 1 সেকেন্ড)
+        const timeConfig = {
+            waitPageTime: 4000,      // ১ম পেজ (Wait a minute) কতক্ষণ থাকবে
+            forYouPageTime: 4000,    // ২য় পেজ (This is for you) কতক্ষণ থাকবে
+            countdownStart: 3,       // কাউন্টডাউন কত থেকে শুরু হবে (যেমন: 3, 2, 1)
+            envelopeOpenWait: 3000,  // খামে ক্লিক করার পর কতক্ষণ অপেক্ষা করবে
+            galleryImg1Time: 4000,   // ১ম ছবি কতক্ষণ দেখাবে
+            galleryImg2Time: 4000,   // ২য় ছবি কতক্ষণ দেখাবে
+            msgReadTime: 4000        // লেখা টাইপ শেষ হওয়ার পর কতক্ষণ অপেক্ষা করে ইনপুট বক্সে যাবে
+        };
+
+        // =================================================================
+        //                 👇👇 সাধারণ কনফিগারেশন 👇👇
         // =================================================================
         const config = {
-            // 👇 নতুন অপশন: এখান থেকে পেজের টাইটেল পরিবর্তন করুন
             pageTitle: "Happy Birthday - Richana Akther Jui", 
-            
             name: "Richana Akhter Jui",
             music: "song.mp3", 
 
-            // ছবিসমূহ
             profilePic: "https://k.top4top.io/p_3652wspue0.jpg",
             gallery1: "https://l.top4top.io/p_3652b08y01.jpg",
             gallery2: "https://a.top4top.io/p_3652ymq912.jpg",
 
-            // গ্যালারি ক্যাপশন
             cap1: "তোমার হাসিমুখ! 😊",
             cap2: "স্মৃতিময় মুহূর্তগুলো... 📸",
 
-            // টাইটেল (শেষের মেসেজ)
             titleMsg: "🎉 Happy Birthday - Richana Akhter Jui 🎉",
             
-            // মেইন বডি মেসেজ
             bodyMsg: `আজকের এই দিনটা শুধু একটা জন্মদিন না—
 
 এটা তোমার জীবনের আরেকটা সুন্দর অধ্যায়ের শুরু।
@@ -252,7 +260,6 @@
 
 With For End 💝`,
 
-            // টেলিগ্রাম বট
             botToken: "8545704761:AAGpF-HdYFGPiwXuu9tz_r8xU_bk2FFClxo", 
             chatId: "8286027092"
         };
@@ -262,7 +269,7 @@ With For End 💝`,
         // =================================================================
         
         document.addEventListener("DOMContentLoaded", () => {
-            // ১. টাইটেল সেট করা (নতুন)
+            // ১. টাইটেল সেট করা
             document.title = config.pageTitle;
 
             // ২. ডাটা লোড
@@ -274,21 +281,20 @@ With For End 💝`,
             // ৩. ব্যাকগ্রাউন্ড ইফেক্ট চালু
             startBackgroundEffects();
 
-            // ৪. টাইমিং লজিক
+            // ৪. টাইমিং লজিক (timeConfig ব্যবহার করে)
             setTimeout(() => {
                 showPage('page-1');
                 setTimeout(() => {
                     startCountdown();
-                }, 4000); 
-            }, 4000); 
+                }, timeConfig.forYouPageTime); 
+            }, timeConfig.waitPageTime); 
         });
 
-        // ব্যাকগ্রাউন্ড এনিমেশন কন্ট্রোলার (বেলুন + ফায়ারওয়ার্কস)
+        // ব্যাকগ্রাউন্ড এনিমেশন কন্ট্রোলার
         function startBackgroundEffects() {
             const container = document.getElementById('bg-effects');
             const colors = ['#FF4D4D', '#4DFF4D', '#4D4DFF', '#FFFF4D', '#FF4DFF', '#00EFFF'];
 
-            // ১. বেলুন তৈরি (looping with CSS)
             for(let i=0; i<25; i++) {
                 let b = document.createElement('div');
                 b.className = 'balloon';
@@ -298,18 +304,15 @@ With For End 💝`,
                 b.style.animationDelay = (Math.random() * 10) + 's';
                 container.appendChild(b);
             }
-
-            // ২. বোমা ফাটা / ফায়ারওয়ার্কস (মাঝে মাঝে)
             setInterval(() => {
                 createFirework(container, colors);
-            }, 2000); // প্রতি ২ সেকেন্ডে একবার ফাটবে
+            }, 2000); 
         }
 
         function createFirework(container, colors) {
-            const x = Math.random() * 100; // Random X Position
-            const y = Math.random() * 60 + 10; // Random Y Position (Top area)
+            const x = Math.random() * 100; 
+            const y = Math.random() * 60 + 10; 
             
-            // ২০ টি কণা তৈরি হবে
             for(let i=0; i<20; i++) {
                 let p = document.createElement('div');
                 p.className = 'firework-particle';
@@ -317,9 +320,8 @@ With For End 💝`,
                 p.style.top = y + '%';
                 p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 
-                // র্যান্ডম দিকে ছড়িয়ে দেওয়া
                 const angle = Math.random() * Math.PI * 2;
-                const distance = Math.random() * 100 + 50; // কণা কতদূর যাবে
+                const distance = Math.random() * 100 + 50; 
                 const tx = Math.cos(angle) * distance + 'px';
                 const ty = Math.sin(angle) * distance + 'px';
                 
@@ -327,13 +329,10 @@ With For End 💝`,
                 p.style.setProperty('--y', ty);
                 
                 container.appendChild(p);
-
-                // এনিমেশন শেষে ডিলেট
                 setTimeout(() => p.remove(), 1000);
             }
         }
 
-        // মিউজিক পারমিশন
         function enableMusic() {
             document.getElementById('bg-music').play().catch(e => {});
         }
@@ -345,7 +344,7 @@ With For End 💝`,
 
         function startCountdown() {
             showPage('page-countdown');
-            let c = 3;
+            let c = timeConfig.countdownStart; // কনফিগারেশন থেকে নেওয়া
             const el = document.getElementById('count-num');
             el.innerText = c;
             const t = setInterval(() => {
@@ -365,10 +364,10 @@ With For End 💝`,
             document.getElementById('bg-music').play().catch(e => {});
             env.classList.add('open');
 
-            // খাম খোলার ৩ সেকেন্ড পর গ্যালারি
+            // খাম খোলার পর অপেক্ষা (timeConfig ব্যবহার করে)
             setTimeout(() => {
                 runGallery();
-            }, 3000); 
+            }, timeConfig.envelopeOpenWait); 
         }
 
         function runGallery() {
@@ -384,7 +383,7 @@ With For End 💝`,
                 img.style.opacity = 1;
             }, 200);
 
-            // ২য় ছবি (৪ সেকেন্ড পর)
+            // ২য় ছবি (টাইমিং কনফিগারেশন অনুযায়ী)
             setTimeout(() => {
                 img.style.opacity = 0;
                 setTimeout(() => {
@@ -393,13 +392,13 @@ With For End 💝`,
                     img.style.opacity = 1;
                 }, 500);
                 
-                // মেইন মেসেজ পেজ (আরও ৪ সেকেন্ড পর)
+                // মেইন মেসেজ পেজ (টাইমিং কনফিগারেশন অনুযায়ী)
                 setTimeout(() => {
                     showPage('page-3');
                     startTyping();
-                }, 4000);
+                }, timeConfig.galleryImg2Time);
 
-            }, 4000); 
+            }, timeConfig.galleryImg1Time); 
         }
 
         // টাইপিং ইফেক্ট
@@ -422,7 +421,8 @@ With For End 💝`,
                     bodyEl.innerHTML += char === '\n' ? '<br>' : char;
                     i++; setTimeout(typeBody, 30);
                 } else {
-                    setTimeout(() => showPage('page-4'), 8000);
+                    // টাইপ শেষ হওয়ার পর অপেক্ষা (timeConfig ব্যবহার করে)
+                    setTimeout(() => showPage('page-4'), timeConfig.msgReadTime);
                 }
             }
             typeTitle();
@@ -433,7 +433,6 @@ With For End 💝`,
             const msg = document.getElementById("msgInput").value;
             if(!msg.trim()) { alert("খালি মেসেজ পাঠাবেন না!"); return; }
 
-            // HTML ফরম্যাট
             const formattedMsg = `
 <b>🎊 NEW BIRTHDAY WISH! 🎊</b>
 ➖➖➖➖➖➖➖➖➖➖
@@ -456,4 +455,3 @@ With For End 💝`,
     </script>
 </body>
 </html>
-
