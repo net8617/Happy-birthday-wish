@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Full Birthday Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@400;500;600&family=Hind+Siliguri:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #090a0f;
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --border-glow: rgba(0, 239, 255, 0.25);
+            --cyan: #00efff;
+            --gold: #FFD700;
+            --pink: #ff00de;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: radial-gradient(circle at top, #230918 0%, #090308 100%);
+            color: #fff;
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 720px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.65);
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
+            color: var(--cyan);
+            text-shadow: 0 0 10px rgba(0, 239, 255, 0.4);
+        }
+
+        .btn-group-top {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .logout-btn, .reset-btn {
+            background: rgba(255, 71, 87, 0.2);
+            border: 1px solid #ff4757;
+            color: #ff6b81;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .logout-btn:hover, .reset-btn:hover { background: #ff4757; color: #fff; }
+
+        .reset-btn {
+            background: rgba(255, 215, 0, 0.15);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .reset-btn:hover { background: var(--gold); color: #000; }
+
+        .section-title {
+            color: var(--gold);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin: 24px 0 12px;
+            padding-left: 10px;
+            border-left: 3px solid var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 560px) {
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+
+        .form-group { margin-bottom: 14px; }
+        label {
+            display: block;
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            margin-bottom: 5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 11px;
+            color: #fff;
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+            font-size: 0.92rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 12px rgba(0, 239, 255, 0.25);
+        }
+
+        .img-preview-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .img-preview-row input[type="text"] { flex: 1; }
+        .preview-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid var(--gold);
+            background: #111;
+            flex-shrink: 0;
+        }
+
+        .upload-label {
+            background: rgba(0, 239, 255, 0.15);
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            padding: 10px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 600;
+            white-space: nowrap;
+            margin: 0;
+            transition: 0.3s;
+        }
+        .upload-label:hover {
+            background: var(--cyan);
+            color: #000;
+        }
+
+        .btn-save {
+            width: 100%;
+            background: linear-gradient(135deg, var(--pink), var(--cyan));
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 18px;
+            box-shadow: 0 5px 20px rgba(0, 239, 255, 0.35);
+            transition: 0.3s;
+        }
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 239, 255, 0.55);
+        }
+
+        .btn-visit {
+            display: block;
+            text-align: center;
+            margin-top: 14px;
+            color: var(--cyan);
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        #login-box { max-width: 400px; margin-top: 60px; }
+        .hidden { display: none !important; }
+        #status-msg { text-align: center; margin-top: 12px; font-size: 0.92rem; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <!-- লগইন বক্স -->
+    <div class="container" id="login-box">
+        <div class="header" style="justify-content: center;">
+            <h1>🔐 CSB ADMIN LOGIN</h1>
+        </div>
+        <div class="form-group">
+            <label>Admin Email</label>
+            <input type="email" id="adminEmail" value="netjoddha@gmail.com">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="adminPass" value="@netjoddha@8617">
+        </div>
+        <button class="btn-save" onclick="loginAdmin()">Login / Setup Admin 🚀</button>
+        <p id="login-error" style="color: #ff4757; text-align: center; margin-top: 12px; font-size: 0.85rem;"></p>
+    </div>
+
+    <!-- ফুল কন্ট্রোল এডমিন ড্যাশবোর্ড -->
+    <div class="container hidden" id="dashboard-box">
+        <div class="header">
+            <h1>⚡ FULL ADMIN PANEL</h1>
+            <div class="btn-group-top">
+                <button class="reset-btn" onclick="resetToDefault()">Reset Default</button>
+                <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+            </div>
+        </div>
+
+        <div class="section-title">১. সাধারণ তথ্য, ইন্ট্রো নোটিশ ও মিউজিক</div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>ব্রাউজার ট্যাব টাইটেল (Page Title)</label>
+                <input type="text" id="pageTitle" placeholder="Happy Birthday Bijoy Vai!">
+            </div>
+            <div class="form-group">
+                <label>ব্যাকগ্রাউন্ড মিউজিক (.mp3 লিংক বা ফাইল নাম)</label>
+                <input type="text" id="music" placeholder="song.mp3">
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>প্রধান নাম (খামের ভেতরের চিঠিতে দেখাবে)</label>
+                <input type="text" id="name" placeholder="CSB CEO-BIJOY">
+            </div>
+            <div class="form-group">
+                <label>গ্যালারি ও সাইনবোর্ড ব্যাজ নাম</label>
+                <input type="text" id="badgeName" placeholder="CSB CEO - BIJOY VAI">
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>ইন্ট্রো ছোট নোটিশ (উপরে)</label>
+                <input type="text" id="introSub" placeholder="A LITTLE SURPRISE FOR YOU">
+            </div>
+            <div class="form-group">
+                <label>ইন্ট্রো বড় হেডিং (Hey)</label>
+                <input type="text" id="introHey" placeholder="Hey">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>ইন্ট্রো সাব-মেসেজ</label>
+            <input type="text" id="introDesc" placeholder="I made something special just for you.">
+        </div>
+        <div class="form-group">
+            <label>গাছের পেজের উপরের নোটিশ (Tree Page Title)</label>
+            <input type="text" id="treeTitle" placeholder="My dearest, Happy Birthday! 🎂">
+        </div>
+
+        <div class="section-title">২. কার্টুনদের নাম (নিচের ট্যাগে যা দেখাবে)</div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>বার্থডে কার্টুনের নাম (Riyan)</label>
+                <input type="text" id="heroCharName">
+            </div>
+            <div class="form-group">
+                <label>প্রধান বন্ধু কার্টুনের নাম (Rakib)</label>
+                <input type="text" id="friendCharName">
+            </div>
+            <div class="form-group">
+                <label>বন্ধু ১ নাম (Siam)</label>
+                <input type="text" id="friend1Name">
+            </div>
+            <div class="form-group">
+                <label>বন্ধু ২ নাম (Arif)</label>
+                <input type="text" id="friend2Name">
+            </div>
+        </div>
+
+        <div class="section-title">৩. কার্টুনদের কথোপকথন (শুধু মেসেজগুলো যা বাবলে উঠবে)</div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>১ম কথা (গাছের নিচে - Hi Rakib)</label>
+                <input type="text" id="dlgHi">
+            </div>
+            <div class="form-group">
+                <label>২য় কথা (গাছের নিচে - Hlw Riyan)</label>
+                <input type="text" id="dlgHlw">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>৩য় কথা (গাছের নিচে উইশ - Happy Birthday)</label>
+            <input type="text" id="dlgWish">
+        </div>
+        <div class="form-group">
+            <label>কেকের দোকানে গিয়ে যা বলবে</label>
+            <input type="text" id="dlgShop">
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>চোখ খোলার সময় ডায়ালগ</label>
+                <input type="text" id="dlgOpenEyes">
+            </div>
+            <div class="form-group">
+                <label>সারপ্রাইজ দেখে বার্থডে বয়ের কথা</label>
+                <input type="text" id="dlgWow">
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>সবাই একসাথে কেক কাটার কথা</label>
+                <input type="text" id="dlgTogether">
+            </div>
+            <div class="form-group">
+                <label>গিফট দেওয়ার সময় কথা</label>
+                <input type="text" id="dlgGift">
+            </div>
+        </div>
+
+        <div class="section-title">৪. সাইনবোর্ড, প্রোফাইল ও গ্যালারির ৩টি ছবি (লিংক বা ফাইল আপলোড)</div>
+        
+        <div class="form-group">
+            <label>কেক কাটার সময় ৩-খুঁটির সাইনবোর্ডে যে ছবি আসবে</label>
+            <div class="img-preview-row">
+                <input type="text" id="signboardPic" placeholder="ছবির লিংক দিন বা গ্যালারি থেকে সিলেক্ট করুন" oninput="updateThumb('signboardPic', 'thumb-sign')">
+                <label class="upload-label">📁 ফাইল<input type="file" accept="image/*" style="display:none" onchange="uploadImageFile(this, 'signboardPic', 'thumb-sign')"></label>
+                <img src="" id="thumb-sign" class="preview-thumb">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>প্রোফাইল ছবি (শেষের মেসেজ পেজের গোল ছবি)</label>
+            <div class="img-preview-row">
+                <input type="text" id="profilePic" placeholder="ছবির লিংক দিন বা গ্যালারি থেকে সিলেক্ট করুন" oninput="updateThumb('profilePic', 'thumb-profile')">
+                <label class="upload-label">📁 ফাইল<input type="file" accept="image/*" style="display:none" onchange="uploadImageFile(this, 'profilePic', 'thumb-profile')"></label>
+                <img src="" id="thumb-profile" class="preview-thumb">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>গ্যালারি ছবি ১ (লিংক ও ক্যাপশন)</label>
+            <div class="img-preview-row">
+                <input type="text" id="gallery1" oninput="updateThumb('gallery1', 'thumb-g1')">
+                <label class="upload-label">📁 ফাইল<input type="file" accept="image/*" style="display:none" onchange="uploadImageFile(this, 'gallery1', 'thumb-g1')"></label>
+                <img src="" id="thumb-g1" class="preview-thumb">
+            </div>
+            <input type="text" id="cap1" style="margin-top: 6px;" placeholder="ক্যাপশন ১ (যেমন: তোমার হাসিমুখ! 😊)">
+        </div>
+
+        <div class="form-group">
+            <label>গ্যালারি ছবি ২ (লিংক ও ক্যাপশন)</label>
+            <div class="img-preview-row">
+                <input type="text" id="gallery2" oninput="updateThumb('gallery2', 'thumb-g2')">
+                <label class="upload-label">📁 ফাইল<input type="file" accept="image/*" style="display:none" onchange="uploadImageFile(this, 'gallery2', 'thumb-g2')"></label>
+                <img src="" id="thumb-g2" class="preview-thumb">
+            </div>
+            <input type="text" id="cap2" style="margin-top: 6px;" placeholder="ক্যাপশন ২ (যেমন: অসাধারণ একটি মুহূর্ত! ✨)">
+        </div>
+
+        <div class="form-group">
+            <label>গ্যালারি ছবি ৩ (লিংক ও ক্যাপশন)</label>
+            <div class="img-preview-row">
+                <input type="text" id="gallery3" oninput="updateThumb('gallery3', 'thumb-g3')">
+                <label class="upload-label">📁 ফাইল<input type="file" accept="image/*" style="display:none" onchange="uploadImageFile(this, 'gallery3', 'thumb-g3')"></label>
+                <img src="" id="thumb-g3" class="preview-thumb">
+            </div>
+            <input type="text" id="cap3" style="margin-top: 6px;" placeholder="ক্যাপশন ৩ (যেমন: স্মৃতিময় মুহূর্তগুলো... 📸)">
+        </div>
+
+        <div class="section-title">৫. ফ্লিপ কার্ডের ৪টি মেসেজ (For You Cards)</div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>কার্ড ১ (💖)</label>
+                <input type="text" id="cardMsg1">
+            </div>
+            <div class="form-group">
+                <label>কার্ড ২ (🥰)</label>
+                <input type="text" id="cardMsg2">
+            </div>
+            <div class="form-group">
+                <label>কার্ড ৩ (🌷)</label>
+                <input type="text" id="cardMsg3">
+            </div>
+            <div class="form-group">
+                <label>কার্ড ৪ (🌈)</label>
+                <input type="text" id="cardMsg4">
+            </div>
+        </div>
+
+        <div class="section-title">৬. মূল বার্থডে মেসেজ ও মন্তব্য বক্স</div>
+        <div class="form-group">
+            <label>মেসেজ টাইটেল (টাইপিং হেডিং)</label>
+            <input type="text" id="titleMsg">
+        </div>
+        <div class="form-group">
+            <label>মেইন বডি মেসেজ</label>
+            <textarea id="bodyMsg" rows="6"></textarea>
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>মন্তব্য বক্সের হেডিং</label>
+                <input type="text" id="commentTitle">
+            </div>
+            <div class="form-group">
+                <label>মন্তব্য বক্সের ভেতরের প্লেসহোল্ডার</label>
+                <input type="text" id="commentPlaceholder">
+            </div>
+        </div>
+
+        <div class="section-title">৭. টেলিগ্রাম বট সেটিংস</div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>Telegram Bot Token</label>
+                <input type="text" id="botToken">
+            </div>
+            <div class="form-group">
+                <label>Telegram Chat ID</label>
+                <input type="text" id="chatId">
+            </div>
+        </div>
+
+        <button class="btn-save" onclick="saveSettings()">💾 Save & Update Live Site</button>
+        <p id="status-msg"></p>
+        <a href="index.html" target="_blank" class="btn-visit">🌐 লাইভ বার্থডে পেজ দেখুন (index.html) →</a>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDe4831L2FaWQ011h_QPwSSPwtgC6KboJ8",
+            authDomain: "brother-shop-bd.firebaseapp.com",
+            databaseURL: "https://brother-shop-bd-default-rtdb.firebaseio.com",
+            projectId: "brother-shop-bd",
+            storageBucket: "brother-shop-bd.firebasestorage.app",
+            messagingSenderId: "1059753405731",
+            appId: "1:1059753405731:web:d2f95a76e0da3afb3e7096",
+            measurementId: "G-0WW1TX0FFC"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        const ALLOWED_ADMIN = "netjoddha@gmail.com";
+
+        const defaultValues = {
+            pageTitle: "Happy Birthday Bijoy Vai!",
+            name: "CSB CEO-BIJOY",
+            badgeName: "CSB CEO - BIJOY VAI",
+            music: "song.mp3",
+            introSub: "A LITTLE SURPRISE FOR YOU",
+            introHey: "Hey",
+            introDesc: "I made something special just for you.",
+            treeTitle: "My dearest, Happy Birthday! 🎂",
+            heroCharName: "Riyan",
+            friendCharName: "Rakib",
+            friend1Name: "Siam",
+            friend2Name: "Arif",
+            dlgHi: "Hi Rakib 👋",
+            dlgHlw: "Hlw Riyan 😊",
+            dlgWish: "Happy Birthday Riyan! 🎂🎉",
+            dlgShop: "ভাই, সেরা স্পেশাল কেকটা দিন! 🎂",
+            dlgOpenEyes: "এবার চোখ খোলো রিয়ান! 🎉",
+            dlgWow: "ওয়াও! এত সুন্দর সারপ্রাইজ! 😍",
+            dlgTogether: "আসো সবাই একসাথে হাত ধরে কেক কাটি! 🎂🔪",
+            dlgGift: "এই নাও তোমার স্পেশাল বার্থডে গিফট! 🎁❤️",
+            signboardPic: "https://d.top4top.io/p_365078o2b0.jpg",
+            profilePic: "https://d.top4top.io/p_365078o2b0.jpg",
+            gallery1: "https://i.top4top.io/p_3650n2bbj0.png",
+            cap1: "তোমার হাসিমুখ! 😊",
+            gallery2: "https://k.top4top.io/p_3650xejs01.jpg",
+            cap2: "অসাধারণ একটি মুহূর্ত! ✨",
+            gallery3: "https://d.top4top.io/p_365078o2b0.jpg",
+            cap3: "স্মৃতিময় মুহূর্তগুলো... 📸",
+            cardMsg1: "\"You have a special place in my heart.\"",
+            cardMsg2: "\"You deserve all the beautiful things in this world. 💖\"",
+            cardMsg3: "\"One of a kind, just like you.\"",
+            cardMsg4: "\"MY BEST FRIEND TODAY, TOMORROW & FOREVER!\"",
+            titleMsg: "🎉 Happy Birthday CSB CEO – Bijoy Vai 🎉",
+            bodyMsg: `আজ আপনার বিশেষ দিন।
+আপনার মতো একজন মানুষকে নেতা হিসেবে পাওয়াটা সত্যিই সৌভাগ্যের।
+আপনি যেভাবে আমাদের সবার প্রতিনিধি হয়ে পথ দেখাচ্ছেন—
+তা ভাষায় প্রকাশ করা কঠিন।
+
+আপনাকে ধন্যবাদ বলার মতো শব্দ খুঁজে পাই না,
+শুধু হৃদয় থেকে সম্মান আর ভালোবাসা জানাই।
+
+🤲 দোয়া করি—
+আপনি সবসময় সুস্থ থাকুন, নিরাপদ থাকুন,
+আর আপনার নেতৃত্বে CSB আরও সামনে এগিয়ে যাক।
+
+✨ শুভ জন্মদিন, Bijoy Vai! ✨
+— CSB Family 💙`,
+            commentTitle: "✨ আপনার মূল্যবান মন্তব্য লিখুন 💌",
+            commentPlaceholder: "আপনার সুন্দর মন্তব্য বা অনুভূতি এখানে লিখুন...",
+            botToken: "8545704761:AAGpF-HdYFGPiwXuu9tz_r8xU_bk2FFClxo",
+            chatId: "8286027092"
+        };
+
+        auth.onAuthStateChanged((user) => {
+            if (user && user.email === ALLOWED_ADMIN) {
+                document.getElementById('login-box').classList.add('hidden');
+                document.getElementById('dashboard-box').classList.remove('hidden');
+                loadCurrentData();
+            } else {
+                if (user) auth.signOut();
+                document.getElementById('login-box').classList.remove('hidden');
+                document.getElementById('dashboard-box').classList.add('hidden');
+            }
+        });
+
+        function loginAdmin() {
+            const email = document.getElementById('adminEmail').value.trim();
+            const pass = document.getElementById('adminPass').value;
+            const errEl = document.getElementById('login-error');
+
+            if (email !== ALLOWED_ADMIN) {
+                errEl.style.color = "#ff4757";
+                errEl.innerText = "শুধুমাত্র অনুমোদিত এডমিন ইমেইল ব্যবহার করুন!";
+                return;
+            }
+
+            errEl.style.color = "#00efff";
+            errEl.innerText = "লগইন হচ্ছে...";
+
+            auth.signInWithEmailAndPassword(email, pass)
+                .then(() => { errEl.innerText = ""; })
+                .catch((error) => {
+                    if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                        errEl.innerText = "প্রথমবার এডমিন অ্যাকাউন্ট তৈরি হচ্ছে...";
+                        auth.createUserWithEmailAndPassword(email, pass)
+                            .then(() => { errEl.innerText = ""; })
+                            .catch((createErr) => {
+                                errEl.style.color = "#ff4757";
+                                errEl.innerText = "সমস্যা: " + createErr.message;
+                            });
+                    } else {
+                        errEl.style.color = "#ff4757";
+                        errEl.innerText = "ভুল পাসওয়ার্ড বা Authentication চালু নেই!";
+                    }
+                });
+        }
+
+        function logoutAdmin() {
+            auth.signOut();
+        }
+
+        function updateThumb(inputId, imgId) {
+            document.getElementById(imgId).src = document.getElementById(inputId).value;
+        }
+
+        // সরাসরি গ্যালারি থেকে ছবি আপলোড করে Base64-এ কনভার্ট করার সুবিধা
+        function uploadImageFile(fileInput, targetInputId, thumbId) {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxSize = 600;
+                    let w = img.width, h = img.height;
+                    if (w > h && w > maxSize) { h *= maxSize / w; w = maxSize; }
+                    else if (h > maxSize) { w *= maxSize / h; h = maxSize; }
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+                    document.getElementById(targetInputId).value = dataUrl;
+                    document.getElementById(thumbId).src = dataUrl;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function loadCurrentData() {
+            db.ref('birthdayConfig').once('value').then((snapshot) => {
+                const data = snapshot.val() || defaultValues;
+                const merged = { ...defaultValues, ...data };
+
+                Object.keys(defaultValues).forEach(key => {
+                    if (document.getElementById(key)) {
+                        document.getElementById(key).value = merged[key];
+                    }
+                });
+
+                updateThumb('signboardPic', 'thumb-sign');
+                updateThumb('profilePic', 'thumb-profile');
+                updateThumb('gallery1', 'thumb-g1');
+                updateThumb('gallery2', 'thumb-g2');
+                updateThumb('gallery3', 'thumb-g3');
+            });
+        }
+
+        function saveSettings() {
+            const statusEl = document.getElementById('status-msg');
+            statusEl.style.color = "#00efff";
+            statusEl.innerText = "সেভ হচ্ছে...";
+
+            const updatedData = {};
+            Object.keys(defaultValues).forEach(key => {
+                updatedData[key] = document.getElementById(key).value;
+            });
+
+            db.ref('birthdayConfig').set(updatedData)
+                .then(() => {
+                    statusEl.style.color = "#4DFF4D";
+                    statusEl.innerText = "✅ সব তথ্য সফলভাবে আপডেট হয়েছে! লাইভ সাইটে পরিবর্তন দেখা যাবে।";
+                    setTimeout(() => { statusEl.innerText = ""; }, 4000);
+                })
+                .catch((err) => {
+                    statusEl.style.color = "#ff4757";
+                    statusEl.innerText = "❌ সমস্যা হয়েছে: " + err.message;
+                });
+        }
+
+        function resetToDefault() {
+            if (!confirm("তুমি কি সব সেটিংস ডিফল্ট অবস্থায় ফিরিয়ে আনতে চাও?")) return;
+            Object.keys(defaultValues).forEach(key => {
+                if (document.getElementById(key)) {
+                    document.getElementById(key).value = defaultValues[key];
+                }
+            });
+            saveSettings();
+        }
+    </script>
+</body>
+</html>
