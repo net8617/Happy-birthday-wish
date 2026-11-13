@@ -228,15 +228,15 @@
             </div>
         </div>
 
-        <div class="section-title">১. সাধারণ তথ্য, ইন্ট্রো নোটিশ ও মিউজিক</div>
+        <div class="section-title">১. সাধারণ তথ্য, ক্রেডিট নাম (By Net Joddha) ও মিউজিক</div>
         <div class="grid-2">
             <div class="form-group">
                 <label>ব্রাউজার ট্যাব টাইটেল (Page Title)</label>
                 <input type="text" id="pageTitle" placeholder="Happy Birthday Bijoy Vai!">
             </div>
             <div class="form-group">
-                <label>ব্যাকগ্রাউন্ড মিউজিক (.mp3 লিংক বা ফাইল নাম)</label>
-                <input type="text" id="music" placeholder="song.mp3">
+                <label> ডেভেলপার/ক্রেডিট নাম (সব জায়গায় By ... পরিবর্তন হবে)</label>
+                <input type="text" id="creditName" placeholder="Net Joddha">
             </div>
         </div>
         <div class="grid-2">
@@ -248,6 +248,10 @@
                 <label>গ্যালারি ও সাইনবোর্ড ব্যাজ নাম</label>
                 <input type="text" id="badgeName" placeholder="CSB CEO - BIJOY VAI">
             </div>
+        </div>
+        <div class="form-group">
+            <label>ব্যাকগ্রাউন্ড মিউজিক (.mp3 লিংক বা ফাইল নাম)</label>
+            <input type="text" id="music" placeholder="song.mp3">
         </div>
         <div class="grid-2">
             <div class="form-group">
@@ -454,7 +458,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // সরাসরি তোমার ইমেইল ও পাসওয়ার্ড চেক
         const ADMIN_EMAIL = "netjoddha@gmail.com";
         const ADMIN_PASS = "@netjoddha@8617";
 
@@ -462,6 +465,7 @@
             pageTitle: "Happy Birthday Bijoy Vai!",
             name: "CSB CEO-BIJOY",
             badgeName: "CSB CEO - BIJOY VAI",
+            creditName: "Net Joddha",
             music: "song.mp3",
             introSub: "A LITTLE SURPRISE FOR YOU",
             introHey: "Hey",
@@ -512,7 +516,6 @@
             chatId: "8286027092"
         };
 
-        // পেজ লোড হলে চেক করবে আগে লগইন করা ছিল কি না
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem("csb_admin_logged") === "true") {
                 showDashboard();
@@ -550,7 +553,6 @@
             document.getElementById(imgId).src = document.getElementById(inputId).value;
         }
 
-        // সরাসরি গ্যালারি থেকে ছবি সিলেক্ট করলে অটো কনভার্ট
         function uploadImageFile(fileInput, targetInputId, thumbId) {
             const file = fileInput.files[0];
             if (!file) return;
