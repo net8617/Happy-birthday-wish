@@ -437,7 +437,6 @@
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
     <script>
@@ -453,10 +452,11 @@
         };
 
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
         const db = firebase.database();
 
-        const ALLOWED_ADMIN = "netjoddha@gmail.com";
+        // সরাসরি তোমার ইমেইল ও পাসওয়ার্ড চেক
+        const ADMIN_EMAIL = "netjoddha@gmail.com";
+        const ADMIN_PASS = "@netjoddha@8617";
 
         const defaultValues = {
             pageTitle: "Happy Birthday Bijoy Vai!",
@@ -512,59 +512,45 @@
             chatId: "8286027092"
         };
 
-        auth.onAuthStateChanged((user) => {
-            if (user && user.email === ALLOWED_ADMIN) {
-                document.getElementById('login-box').classList.add('hidden');
-                document.getElementById('dashboard-box').classList.remove('hidden');
-                loadCurrentData();
-            } else {
-                if (user) auth.signOut();
-                document.getElementById('login-box').classList.remove('hidden');
-                document.getElementById('dashboard-box').classList.add('hidden');
+        // পেজ লোড হলে চেক করবে আগে লগইন করা ছিল কি না
+        document.addEventListener("DOMContentLoaded", () => {
+            if (localStorage.getItem("csb_admin_logged") === "true") {
+                showDashboard();
             }
         });
 
         function loginAdmin() {
             const email = document.getElementById('adminEmail').value.trim();
-            const pass = document.getElementById('adminPass').value;
+            const pass = document.getElementById('adminPass').value.trim();
             const errEl = document.getElementById('login-error');
 
-            if (email !== ALLOWED_ADMIN) {
+            if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+                errEl.innerText = "";
+                localStorage.setItem("csb_admin_logged", "true");
+                showDashboard();
+            } else {
                 errEl.style.color = "#ff4757";
-                errEl.innerText = "শুধুমাত্র অনুমোদিত এডমিন ইমেইল ব্যবহার করুন!";
-                return;
+                errEl.innerText = "❌ ভুল ইমেইল অথবা পাসওয়ার্ড!";
             }
+        }
 
-            errEl.style.color = "#00efff";
-            errEl.innerText = "লগইন হচ্ছে...";
-
-            auth.signInWithEmailAndPassword(email, pass)
-                .then(() => { errEl.innerText = ""; })
-                .catch((error) => {
-                    if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
-                        errEl.innerText = "প্রথমবার এডমিন অ্যাকাউন্ট তৈরি হচ্ছে...";
-                        auth.createUserWithEmailAndPassword(email, pass)
-                            .then(() => { errEl.innerText = ""; })
-                            .catch((createErr) => {
-                                errEl.style.color = "#ff4757";
-                                errEl.innerText = "সমস্যা: " + createErr.message;
-                            });
-                    } else {
-                        errEl.style.color = "#ff4757";
-                        errEl.innerText = "ভুল পাসওয়ার্ড বা Authentication চালু নেই!";
-                    }
-                });
+        function showDashboard() {
+            document.getElementById('login-box').classList.add('hidden');
+            document.getElementById('dashboard-box').classList.remove('hidden');
+            loadCurrentData();
         }
 
         function logoutAdmin() {
-            auth.signOut();
+            localStorage.removeItem("csb_admin_logged");
+            document.getElementById('login-box').classList.remove('hidden');
+            document.getElementById('dashboard-box').classList.add('hidden');
         }
 
         function updateThumb(inputId, imgId) {
             document.getElementById(imgId).src = document.getElementById(inputId).value;
         }
 
-        // সরাসরি গ্যালারি থেকে ছবি আপলোড করে Base64-এ কনভার্ট করার সুবিধা
+        // সরাসরি গ্যালারি থেকে ছবি সিলেক্ট করলে অটো কনভার্ট
         function uploadImageFile(fileInput, targetInputId, thumbId) {
             const file = fileInput.files[0];
             if (!file) return;
@@ -628,7 +614,7 @@
                 })
                 .catch((err) => {
                     statusEl.style.color = "#ff4757";
-                    statusEl.innerText = "❌ সমস্যা হয়েছে: " + err.message;
+                    statusEl.innerText = "❌ সমস্যা হয়েছে: Firebase Database Rules-এ .write: true করা আছে কি না চেক করুন!";
                 });
         }
 
