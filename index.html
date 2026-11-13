@@ -8,7 +8,7 @@
     
     <style>
         /* =========================================
-           ১. প্রিমিয়াম থিম সেটআপ (সব পেজে একই ব্যাকগ্রাউন্ড)
+           ১. প্রিমিয়াম থিম সেটআপ (Mobile & Website Responsive)
         ========================================= */
         :root {
             --primary-glow: #FFD700; 
@@ -51,12 +51,21 @@
             height: 44px;
             background: red;
             border-radius: 50%;
-            opacity: 0.8;
+            opacity: 0.85;
             animation: floatUp linear infinite;
-            box-shadow: inset -5px -5px 0 rgba(0,0,0,0.15), 0 0 10px rgba(255,255,255,0.2);
+            box-shadow: inset -6px -6px 0 rgba(0,0,0,0.2), 0 0 12px rgba(255,255,255,0.2);
             pointer-events: auto;
             cursor: pointer;
             transition: transform 0.15s ease;
+        }
+        .balloon::after {
+            content: '';
+            position: absolute;
+            top: 7px; left: 7px;
+            width: 7px; height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.45);
+            transform: rotate(-25deg);
         }
         .balloon:active {
             transform: scale(1.25);
@@ -72,13 +81,14 @@
 
         .firework-particle {
             position: absolute;
-            width: 6px; height: 6px;
+            width: 7px; height: 7px;
             border-radius: 50%;
             pointer-events: none;
-            animation: explode 1s ease-out forwards;
+            animation: explode 1.1s ease-out forwards;
+            box-shadow: 0 0 8px currentColor;
         }
         @keyframes explode {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            0% { transform: translate(0, 0) scale(1.2); opacity: 1; }
             100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
         }
 
@@ -92,7 +102,7 @@
             border-radius: 24px;
             padding: 35px 25px;
             width: 90%;
-            max-width: 370px;
+            max-width: 400px;
             box-shadow: 0 0 40px rgba(255, 75, 139, 0.35);
             text-align: center;
         }
@@ -107,7 +117,7 @@
 
         .digital-clock {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.3rem;
+            font-size: clamp(1.9rem, 5vw, 2.5rem);
             font-weight: 700;
             color: #ffffff;
             text-shadow: 0 0 20px #ff4b8b, 0 0 40px #ff4b8b;
@@ -134,7 +144,7 @@
         ========================================= */
         .intro-wrapper {
             width: 100%;
-            max-width: 380px;
+            max-width: 420px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -175,7 +185,7 @@
 
         .intro-hey {
             font-family: 'Playfair Display', serif;
-            font-size: 3.6rem;
+            font-size: clamp(3rem, 7vw, 4rem);
             font-weight: 700;
             color: #ffffff;
             text-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
@@ -267,7 +277,7 @@
         }
 
         /* =========================================
-           ২.৬ কার্টুন স্টোরি পেজ ডিজাইন (ধীর ও মসৃণ এনিমেশন)
+           ২.৬ কার্টুন স্টোরি পেজ ডিজাইন (Mobile + Website Responsive)
         ========================================= */
         .story-page {
             padding: 0 !important;
@@ -276,14 +286,14 @@
         }
 
         .story-top-text {
-            margin-top: 24px;
+            margin-top: 22px;
             z-index: 15;
             text-align: center;
             padding: 0 15px;
         }
 
         .story-sub {
-            font-size: 0.78rem;
+            font-size: clamp(0.72rem, 2vw, 0.88rem);
             letter-spacing: 2.5px;
             color: #d4b8c7;
             margin-bottom: 6px;
@@ -291,7 +301,7 @@
 
         .story-title {
             font-family: 'Playfair Display', 'Hind Siliguri', serif;
-            font-size: 1.35rem;
+            font-size: clamp(1.25rem, 3.5vw, 1.7rem);
             color: #fff;
             text-shadow: 0 0 15px rgba(255, 75, 139, 0.6);
         }
@@ -299,12 +309,22 @@
         .story-stage {
             position: relative;
             width: 100%;
-            max-width: 480px;
+            max-width: 560px;
             height: 76vh;
             margin: 0 auto;
             display: flex;
             justify-content: center;
             align-items: flex-end;
+        }
+
+        @media (min-width: 768px) {
+            .story-stage {
+                max-width: 680px;
+                height: 78vh;
+                border-left: 1px solid rgba(255, 75, 139, 0.12);
+                border-right: 1px solid rgba(255, 75, 139, 0.12);
+                background: radial-gradient(circle at bottom, rgba(255, 75, 139, 0.06), transparent 70%);
+            }
         }
 
         /* অ্যানিমেটেড হার্ট গাছ (SVG) */
@@ -378,68 +398,71 @@
             left: -10%;
             width: 120%;
             height: 55px;
-            background: linear-gradient(180deg, rgba(255, 75, 139, 0.18) 0%, rgba(18, 5, 14, 0.95) 100%);
-            border-top: 1px solid rgba(255, 75, 139, 0.35);
+            background: linear-gradient(180deg, rgba(255, 75, 139, 0.22) 0%, rgba(18, 5, 14, 0.98) 100%);
+            border-top: 1.5px solid rgba(255, 75, 139, 0.4);
             z-index: 4;
         }
 
-        /* কার্টুন ক্যারেক্টার */
+        /* =========================================
+           প্রফেশনাল কার্টুন ক্যারেক্টার ডিজাইন
+        ========================================= */
         .cartoon-char {
             position: absolute;
             bottom: 48px;
-            width: 72px;
-            height: 114px;
+            width: 78px;
+            height: 122px;
             z-index: 8;
-            transition: left 3.2s ease-in-out, right 3.2s ease-in-out, transform 0.8s ease, opacity 0.8s ease;
+            transition: left 2.8s ease-in-out, right 2.8s ease-in-out, transform 0.8s ease, opacity 0.8s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
+            filter: drop-shadow(0 8px 14px rgba(0,0,0,0.55));
         }
 
         #char-riyan { left: -110px; }
         #char-rakib { right: -110px; }
 
         .walking .char-body-svg {
-            animation: walkBounce 0.58s infinite alternate ease-in-out;
+            animation: walkBounce 0.52s infinite alternate ease-in-out;
         }
 
         @keyframes walkBounce {
-            0% { transform: translateY(0) rotate(-3deg); }
-            100% { transform: translateY(-6px) rotate(3deg); }
+            0% { transform: translateY(0) rotate(-2.5deg); }
+            100% { transform: translateY(-7px) rotate(2.5deg); }
         }
 
         .celebrating .char-body-svg {
-            animation: partyJump 0.6s infinite alternate ease-in-out;
+            animation: partyJump 0.55s infinite alternate ease-in-out;
         }
 
         @keyframes partyJump {
             0% { transform: translateY(0) scale(1); }
-            100% { transform: translateY(-14px) scale(1.06); }
+            100% { transform: translateY(-15px) scale(1.06); }
         }
 
-        /* রাকিবের Sad Mood স্টাইল */
         .sad-mood .char-body-svg {
             transform: translateY(4px) rotate(-4deg);
-            filter: saturate(0.65) brightness(0.85);
+            filter: saturate(0.6) brightness(0.82);
             transition: all 0.8s ease;
         }
 
         .char-tag {
             font-size: 0.7rem;
             font-weight: 600;
-            background: rgba(0, 0, 0, 0.75);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            padding: 2px 9px;
+            background: linear-gradient(135deg, rgba(20, 8, 18, 0.9), rgba(45, 12, 35, 0.9));
+            border: 1px solid rgba(255, 215, 0, 0.45);
+            padding: 2px 10px;
             border-radius: 20px;
-            margin-top: 2px;
+            margin-top: 3px;
             color: #ffd700;
             white-space: nowrap;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
         }
 
-        /* কথা বলার সময় শুধু মেসেজ দেখানোর স্পিচ বাবল */
+        /* কথা বলার স্পিচ বাবল */
         .speech-bubble {
             position: absolute;
-            bottom: 122px;
+            bottom: 126px;
             left: 50%;
             background: #ffffff;
             color: #1b0914;
@@ -487,14 +510,14 @@
         }
 
         /* =========================================
-           কেক শপ ও পার্টি এলিমেন্ট (ছোট সুন্দর কেক + ছবির মতো ৩ খুঁটির সাইনবোর্ড)
+           কেক শপ ও পার্টি এলিমেন্ট (টেবিল আনা + কেক Unbox + ৩ খুঁটির সাইনবোর্ড)
         ========================================= */
         .bakery-shop {
             position: absolute;
             bottom: 50px;
             right: 12px;
-            width: 145px;
-            height: 165px;
+            width: 148px;
+            height: 168px;
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
             border: 2px solid #ff4b8b;
@@ -544,7 +567,7 @@
             position: absolute;
             top: 40px;
             right: -12px;
-            font-size: 1.7rem;
+            font-size: 1.65rem;
             opacity: 0;
             transform: scale(0.5);
             transition: all 0.5s ease;
@@ -573,12 +596,12 @@
             transform: translateY(0);
         }
 
-        /* পরিপাটি ও ছোট সুন্দর কেক টেবিল এবং 360° কেক */
+        /* পরিপাটি কেক টেবিল ও Unbox অ্যানিমেশন */
         .cake-table-setup {
             position: absolute;
             bottom: 50px;
             left: 48%;
-            transform: translateX(-50%) scale(0);
+            transform: translateX(-50%) translateY(60px) scale(0);
             width: 96px;
             height: 52px;
             background: linear-gradient(180deg, #ff6b81, #c44569);
@@ -586,22 +609,71 @@
             border-radius: 10px 10px 0 0;
             box-shadow: 0 0 22px rgba(255, 107, 129, 0.45);
             z-index: 9;
-            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             justify-content: center;
             perspective: 900px;
         }
         .cake-table-setup.show {
-            transform: translateX(-50%) scale(1);
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+
+        /* কেকের বক্স (Unbox করার জন্য) */
+        .cake-unbox-wrapper {
+            position: absolute;
+            top: -42px;
+            width: 50px;
+            height: 42px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 12;
+        }
+
+        .cake-box-package {
+            position: absolute;
+            width: 44px;
+            height: 36px;
+            background: linear-gradient(135deg, #fff0f5, #ffc2d4);
+            border: 2px solid #ff3d7f;
+            border-radius: 6px;
+            box-shadow: 0 0 15px rgba(255, 61, 127, 0.6);
+            opacity: 0;
+            transform: scale(0.3);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .cake-box-package::before {
+            content: '🎀';
+            position: absolute;
+            top: -12px;
+            font-size: 1.1rem;
+            transition: all 0.7s ease;
+        }
+        .cake-box-package.placed {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .cake-box-package.unboxed {
+            opacity: 0;
+            transform: translateY(-45px) scale(1.35) rotate(12deg);
         }
 
         .party-cake {
             position: absolute;
-            top: -42px;
-            font-size: 2.5rem;
+            top: -40px;
+            font-size: 2.35rem;
             filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.9));
-            transition: transform 0.6s ease;
+            opacity: 0;
+            transform: scale(0.2);
+            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform-style: preserve-3d;
+        }
+        .party-cake.revealed {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .party-cake.spin360 {
@@ -616,7 +688,7 @@
 
         .cake-knife {
             position: absolute;
-            top: -50px;
+            top: -48px;
             right: 8px;
             font-size: 1.45rem;
             opacity: 0;
@@ -658,7 +730,6 @@
             100% { filter: drop-shadow(0 6px 28px rgba(0, 239, 255, 0.75)); }
         }
 
-        /* সাদা বিলবোর্ড বোর্ড */
         .billboard-board {
             width: 100%;
             height: 102px;
@@ -706,7 +777,6 @@
             text-overflow: ellipsis;
         }
 
-        /* সাইনবোর্ডের নিচের ৩টি স্টিলের খুঁটি (ছবির মতো) */
         .billboard-pillars {
             width: 82%;
             height: 62px;
@@ -728,10 +798,10 @@
 
         .floating-slice, .gift-box-anim {
             position: absolute;
-            font-size: 1.45rem;
+            font-size: 1.5rem;
             opacity: 0;
             z-index: 30;
-            transition: all 1.1s ease-out;
+            transition: all 1s ease-out;
             filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.85));
         }
 
@@ -740,7 +810,7 @@
         ========================================= */
         .foryou-wrapper {
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -835,7 +905,7 @@
             border: 1px solid rgba(255, 75, 139, 0.25);
             border-radius: 20px;
             padding: 30px 20px;
-            width: 90%; max-width: 400px;
+            width: 92%; max-width: 430px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.6);
             margin: 10px auto;
             position: relative;
@@ -877,15 +947,49 @@
         .profile-img { width: 150px; height: 150px; border-radius: 50%; border: 5px solid var(--primary-glow); object-fit: cover; margin-bottom: 25px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         
-        .gallery-img { width: 100%; border-radius: 12px; border: 3px solid rgba(255,255,255,0.5); margin-bottom: 15px; object-fit: cover; height: 260px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: opacity 0.4s ease; }
+        .gallery-img { width: 100%; border-radius: 12px; border: 3px solid rgba(255,255,255,0.5); margin-bottom: 15px; object-fit: cover; height: 270px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: opacity 0.4s ease; }
         
-        textarea { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.9); border: none; padding: 12px; border-radius: 8px; font-family: 'Hind Siliguri'; margin-bottom: 15px; outline: none; font-size: 1rem; color: #111; }
+        textarea { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.92); border: none; padding: 12px; border-radius: 8px; font-family: 'Hind Siliguri'; margin-bottom: 15px; outline: none; font-size: 1rem; color: #111; }
         .btn { background: linear-gradient(135deg, #ff00de, #00efff); border: none; padding: 12px 30px; color: #fff; font-weight: bold; border-radius: 50px; cursor: pointer; margin-top: 10px; box-shadow: 0 5px 20px rgba(0, 239, 255, 0.4); transition: 0.3s; }
         .btn:hover { transform: scale(1.05); }
     </style>
 </head>
 <body onclick="enableMusic()"> 
     
+    <!-- গ্লোবাল প্রফেশনাল কার্টুন গ্রেডিয়েন্ট ডেফিনিশন -->
+    <svg width="0" height="0" style="position:absolute">
+        <defs>
+            <linearGradient id="skinLight" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffe5c4"/>
+                <stop offset="100%" stop-color="#f3c193"/>
+            </linearGradient>
+            <linearGradient id="skinWarm" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffdbb0"/>
+                <stop offset="100%" stop-color="#e5b07e"/>
+            </linearGradient>
+            <linearGradient id="suitBlue" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#00d2ff"/>
+                <stop offset="100%" stop-color="#0066ff"/>
+            </linearGradient>
+            <linearGradient id="suitPink" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ff5e9c"/>
+                <stop offset="100%" stop-color="#c81d66"/>
+            </linearGradient>
+            <linearGradient id="suitGreen" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#00f2fe"/>
+                <stop offset="100%" stop-color="#00b894"/>
+            </linearGradient>
+            <linearGradient id="suitPurple" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#b892ff"/>
+                <stop offset="100%" stop-color="#6c5ce7"/>
+            </linearGradient>
+            <linearGradient id="suitGold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffeaa7"/>
+                <stop offset="100%" stop-color="#fdcb6e"/>
+            </linearGradient>
+        </defs>
+    </svg>
+
     <audio id="bg-music" loop><source src="" type="audio/mp3"></audio>
     <div class="bg-container" id="bg-effects"></div>
 
@@ -916,11 +1020,11 @@
                 Open Your Surprise ❤️
             </button>
 
-            <div class="made-by">Made with ❤️ by <span>NET JODDHA</span></div>
+            <div class="made-by">Made with ❤️ by <span class="dynamic-credit">NET JODDHA</span></div>
         </div>
     </div>
 
-    <!-- ৩য় পেজ: গাছ, কার্টুন রাকিব-রিয়ান ও ফুল পড়া এনিমেশন -->
+    <!-- ৩য় পেজ: গাছ, প্রফেশনাল কার্টুন রাকিব-রিয়ান ও ফুল পড়া এনিমেশন -->
     <div class="page story-page" id="page-tree-story">
         <div class="story-top-text">
             <div class="story-sub">SOMETHING BEAUTIFUL IS GROWING FOR YOU... ✨</div>
@@ -967,40 +1071,73 @@
                 </g>
             </svg>
 
-            <!-- কার্টুন ১: বার্থডে বয় -->
+            <!-- প্রফেশনাল কার্টুন ১: বার্থডে বয় (Riyan) -->
             <div class="cartoon-char" id="char-riyan">
                 <div class="speech-bubble" id="bubble-riyan"></div>
-                <svg class="char-body-svg" width="75" height="95" viewBox="0 0 80 100">
-                    <circle cx="40" cy="24" r="16" fill="#ffdbac"/>
-                    <path d="M24,22 Q26,6 40,6 Q54,6 56,22 Q50,14 40,15 Q30,14 24,22 Z" fill="#1e272e"/>
-                    <circle cx="35" cy="23" r="2" fill="#111"/>
-                    <circle cx="45" cy="23" r="2" fill="#111"/>
-                    <path d="M35,30 Q40,35 45,30" stroke="#c0392b" stroke-width="2" fill="none" stroke-linecap="round"/>
-                    <rect x="26" y="42" width="28" height="32" rx="8" fill="#00a8ff"/>
-                    <line x1="26" y1="46" x2="15" y2="66" stroke="#ffdbac" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="54" y1="46" x2="65" y2="66" stroke="#ffdbac" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="33" y1="74" x2="31" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="47" y1="74" x2="49" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
+                <svg class="char-body-svg" width="76" height="96" viewBox="0 0 80 100">
+                    <!-- গলা ও কান -->
+                    <rect x="36" y="36" width="8" height="8" rx="3" fill="url(#skinLight)"/>
+                    <circle cx="23" cy="25" r="3.5" fill="url(#skinLight)"/>
+                    <circle cx="57" cy="25" r="3.5" fill="url(#skinLight)"/>
+                    <!-- মুখ ও স্টাইলিশ চুল -->
+                    <circle cx="40" cy="24" r="16" fill="url(#skinLight)"/>
+                    <path d="M22,22 C22,6 58,6 58,22 C54,13 46,12 40,13 C32,12 25,14 22,22 Z" fill="#141824"/>
+                    <!-- চোখ (চোখের মণির গ্লো সহ) ও ভ্রু -->
+                    <path d="M31,18 Q35,16 38,18" stroke="#141824" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+                    <path d="M42,18 Q45,16 49,18" stroke="#141824" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+                    <circle cx="34.5" cy="23.5" r="2.4" fill="#111"/>
+                    <circle cx="35.3" cy="22.8" r="0.8" fill="#fff"/>
+                    <circle cx="45.5" cy="23.5" r="2.4" fill="#111"/>
+                    <circle cx="46.3" cy="22.8" r="0.8" fill="#fff"/>
+                    <!-- গালের ব্লাশ ও হাসি -->
+                    <ellipse cx="30" cy="27" rx="2.5" ry="1.3" fill="#ff7675" opacity="0.5"/>
+                    <ellipse cx="50" cy="27" rx="2.5" ry="1.3" fill="#ff7675" opacity="0.5"/>
+                    <path d="M35,30 Q40,35 45,30" stroke="#c0392b" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                    <!-- প্রিমিয়াম জ্যাকেট/হুডি ও হাত -->
+                    <line x1="25" y1="45" x2="14" y2="65" stroke="url(#suitBlue)" stroke-width="6" stroke-linecap="round"/>
+                    <circle cx="14" cy="66" r="3.2" fill="url(#skinLight)"/>
+                    <line x1="55" y1="45" x2="66" y2="65" stroke="url(#suitBlue)" stroke-width="6" stroke-linecap="round"/>
+                    <circle cx="66" cy="66" r="3.2" fill="url(#skinLight)"/>
+                    <rect x="25" y="41" width="30" height="33" rx="9" fill="url(#suitBlue)"/>
+                    <polygon points="35,41 40,49 45,41" fill="#ffffff"/>
+                    <!-- প্যান্ট ও স্নিকার্স জুতো -->
+                    <rect x="29" y="72" width="9" height="20" rx="4" fill="#1e272e"/>
+                    <rect x="42" y="72" width="9" height="20" rx="4" fill="#1e272e"/>
+                    <rect x="26" y="90" width="13" height="6" rx="3" fill="#ffffff"/>
+                    <rect x="41" y="90" width="13" height="6" rx="3" fill="#ffffff"/>
                 </svg>
                 <div class="char-tag tag-hero">Riyan</div>
             </div>
 
-            <!-- কার্টুন ২: রাকিব -->
+            <!-- প্রফেশনাল কার্টুন ২: রাকিব -->
             <div class="cartoon-char" id="char-rakib">
                 <div class="speech-bubble" id="bubble-rakib"></div>
-                <svg class="char-body-svg" width="75" height="95" viewBox="0 0 80 100">
+                <svg class="char-body-svg" width="76" height="96" viewBox="0 0 80 100">
+                    <!-- বার্থডে ক্যাপ -->
                     <polygon points="40,0 29,14 51,14" fill="#FFD700"/>
-                    <circle cx="40" cy="0" r="2.5" fill="#ff3e88"/>
-                    <circle cx="40" cy="26" r="16" fill="#f1c27d"/>
-                    <path d="M24,24 Q28,11 40,11 Q52,11 56,24 Q48,17 40,17 Q32,17 24,24 Z" fill="#2c3e50"/>
-                    <circle cx="35" cy="25" r="2" fill="#111"/>
-                    <circle cx="45" cy="25" r="2" fill="#111"/>
-                    <path d="M35,32 Q40,37 45,32" stroke="#c0392b" stroke-width="2" fill="none" stroke-linecap="round"/>
-                    <rect x="26" y="44" width="28" height="32" rx="8" fill="#ff3e88"/>
-                    <line x1="26" y1="48" x2="15" y2="68" stroke="#f1c27d" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="54" y1="48" x2="65" y2="68" stroke="#f1c27d" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="33" y1="76" x2="31" y2="95" stroke="#1e272e" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="47" y1="76" x2="49" y2="95" stroke="#1e272e" stroke-width="6" stroke-linecap="round"/>
+                    <circle cx="40" cy="0" r="2.8" fill="#ff3e88"/>
+                    <rect x="36" y="37" width="8" height="8" rx="3" fill="url(#skinWarm)"/>
+                    <circle cx="23" cy="26" r="3.5" fill="url(#skinWarm)"/>
+                    <circle cx="57" cy="26" r="3.5" fill="url(#skinWarm)"/>
+                    <circle cx="40" cy="25" r="16" fill="url(#skinWarm)"/>
+                    <path d="M23,23 C25,9 55,9 57,23 C51,16 45,15 40,15 C34,15 28,16 23,23 Z" fill="#2c3e50"/>
+                    <circle cx="34.5" cy="24.5" r="2.4" fill="#111"/>
+                    <circle cx="35.3" cy="23.8" r="0.8" fill="#fff"/>
+                    <circle cx="45.5" cy="24.5" r="2.4" fill="#111"/>
+                    <circle cx="46.3" cy="23.8" r="0.8" fill="#fff"/>
+                    <ellipse cx="30" cy="28" rx="2.5" ry="1.3" fill="#ff7675" opacity="0.45"/>
+                    <ellipse cx="50" cy="28" rx="2.5" ry="1.3" fill="#ff7675" opacity="0.45"/>
+                    <path d="M35,31 Q40,36 45,31" stroke="#c0392b" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                    <line x1="25" y1="46" x2="14" y2="66" stroke="url(#suitPink)" stroke-width="6" stroke-linecap="round"/>
+                    <circle cx="14" cy="67" r="3.2" fill="url(#skinWarm)"/>
+                    <line x1="55" y1="46" x2="66" y2="66" stroke="url(#suitPink)" stroke-width="6" stroke-linecap="round"/>
+                    <circle cx="66" cy="67" r="3.2" fill="url(#skinWarm)"/>
+                    <rect x="25" y="42" width="30" height="33" rx="9" fill="url(#suitPink)"/>
+                    <polygon points="35,42 40,50 45,42" fill="#ffeaa7"/>
+                    <rect x="29" y="73" width="9" height="20" rx="4" fill="#1e272e"/>
+                    <rect x="42" y="73" width="9" height="20" rx="4" fill="#1e272e"/>
+                    <rect x="26" y="91" width="13" height="6" rx="3" fill="#FFD700"/>
+                    <rect x="41" y="91" width="13" height="6" rx="3" fill="#FFD700"/>
                 </svg>
                 <div class="char-tag tag-friend">Rakib</div>
             </div>
@@ -1027,57 +1164,66 @@
 
             <div class="cartoon-char" id="shop-rakib" style="left: -90px;">
                 <div class="speech-bubble" id="bubble-shop-rakib"></div>
-                <div class="carried-cake" id="rakib-cake">🎂</div>
-                <svg class="char-body-svg" width="70" height="90" viewBox="0 0 80 100">
+                <div class="carried-cake" id="rakib-cake">🎁</div>
+                <svg class="char-body-svg" width="72" height="92" viewBox="0 0 80 100">
                     <polygon points="40,0 29,14 51,14" fill="#FFD700"/>
-                    <circle cx="40" cy="26" r="16" fill="#f1c27d"/>
-                    <path d="M24,24 Q28,11 40,11 Q52,11 56,24 Q48,17 40,17 Q32,17 24,24 Z" fill="#2c3e50"/>
-                    <circle cx="35" cy="25" r="2" fill="#111"/><circle cx="45" cy="25" r="2" fill="#111"/>
-                    <path d="M35,32 Q40,37 45,32" stroke="#c0392b" stroke-width="2" fill="none"/>
-                    <rect x="26" y="44" width="28" height="32" rx="8" fill="#ff3e88"/>
-                    <line x1="26" y1="48" x2="15" y2="68" stroke="#f1c27d" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="54" y1="48" x2="65" y2="68" stroke="#f1c27d" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="33" y1="76" x2="31" y2="95" stroke="#1e272e" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="47" y1="76" x2="49" y2="95" stroke="#1e272e" stroke-width="6" stroke-linecap="round"/>
+                    <rect x="36" y="37" width="8" height="8" rx="3" fill="url(#skinWarm)"/>
+                    <circle cx="40" cy="25" r="16" fill="url(#skinWarm)"/>
+                    <path d="M23,23 C25,9 55,9 57,23 C51,16 45,15 40,15 C34,15 28,16 23,23 Z" fill="#2c3e50"/>
+                    <circle cx="34.5" cy="24.5" r="2.3" fill="#111"/><circle cx="45.5" cy="24.5" r="2.3" fill="#111"/>
+                    <path d="M35,31 Q40,36 45,31" stroke="#c0392b" stroke-width="2.2" fill="none"/>
+                    <line x1="25" y1="46" x2="14" y2="66" stroke="url(#suitPink)" stroke-width="6" stroke-linecap="round"/>
+                    <line x1="55" y1="46" x2="66" y2="66" stroke="url(#suitPink)" stroke-width="6" stroke-linecap="round"/>
+                    <rect x="25" y="42" width="30" height="33" rx="9" fill="url(#suitPink)"/>
+                    <rect x="29" y="73" width="9" height="19" rx="4" fill="#1e272e"/>
+                    <rect x="42" y="73" width="9" height="19" rx="4" fill="#1e272e"/>
+                    <rect x="26" y="90" width="13" height="6" rx="3" fill="#FFD700"/>
+                    <rect x="41" y="90" width="13" height="6" rx="3" fill="#FFD700"/>
                 </svg>
                 <div class="char-tag tag-friend">Rakib</div>
             </div>
 
             <div class="cartoon-char" id="shop-friend1" style="left: -155px;">
-                <svg class="char-body-svg" width="66" height="86" viewBox="0 0 80 100">
-                    <circle cx="40" cy="24" r="15" fill="#ffdbac"/>
-                    <path d="M25,22 Q40,8 55,22 Z" fill="#2d3436"/>
-                    <circle cx="35" cy="23" r="2" fill="#111"/><circle cx="45" cy="23" r="2" fill="#111"/>
+                <svg class="char-body-svg" width="68" height="88" viewBox="0 0 80 100">
+                    <circle cx="40" cy="24" r="15" fill="url(#skinLight)"/>
+                    <path d="M24,22 C26,7 54,7 56,22 Z" fill="#2d3436"/>
+                    <circle cx="35" cy="23" r="2.2" fill="#111"/><circle cx="45" cy="23" r="2.2" fill="#111"/>
                     <path d="M35,30 Q40,34 45,30" stroke="#c0392b" stroke-width="2" fill="none"/>
-                    <rect x="27" y="42" width="26" height="32" rx="8" fill="#00b894"/>
-                    <line x1="34" y1="74" x2="32" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="46" y1="74" x2="48" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
+                    <rect x="26" y="41" width="28" height="32" rx="8" fill="url(#suitGreen)"/>
+                    <rect x="30" y="72" width="8" height="19" rx="4" fill="#2f3640"/>
+                    <rect x="42" y="72" width="8" height="19" rx="4" fill="#2f3640"/>
+                    <rect x="27" y="89" width="12" height="5" rx="2.5" fill="#fff"/>
+                    <rect x="41" y="89" width="12" height="5" rx="2.5" fill="#fff"/>
                 </svg>
                 <div class="char-tag tag-f1">Siam</div>
             </div>
 
             <div class="cartoon-char" id="shop-friend2" style="left: -215px;">
-                <svg class="char-body-svg" width="66" height="86" viewBox="0 0 80 100">
-                    <circle cx="40" cy="24" r="15" fill="#f1c27d"/>
-                    <path d="M25,22 Q40,6 55,22 Z" fill="#1e272e"/>
-                    <circle cx="35" cy="23" r="2" fill="#111"/><circle cx="45" cy="23" r="2" fill="#111"/>
+                <svg class="char-body-svg" width="68" height="88" viewBox="0 0 80 100">
+                    <circle cx="40" cy="24" r="15" fill="url(#skinWarm)"/>
+                    <path d="M24,22 C26,6 54,6 56,22 Z" fill="#1e272e"/>
+                    <circle cx="35" cy="23" r="2.2" fill="#111"/><circle cx="45" cy="23" r="2.2" fill="#111"/>
                     <path d="M35,30 Q40,34 45,30" stroke="#c0392b" stroke-width="2" fill="none"/>
-                    <rect x="27" y="42" width="26" height="32" rx="8" fill="#a29bfe"/>
-                    <line x1="34" y1="74" x2="32" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="46" y1="74" x2="48" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
+                    <rect x="26" y="41" width="28" height="32" rx="8" fill="url(#suitPurple)"/>
+                    <rect x="30" y="72" width="8" height="19" rx="4" fill="#2f3640"/>
+                    <rect x="42" y="72" width="8" height="19" rx="4" fill="#2f3640"/>
+                    <rect x="27" y="89" width="12" height="5" rx="2.5" fill="#fff"/>
+                    <rect x="41" y="89" width="12" height="5" rx="2.5" fill="#fff"/>
                 </svg>
                 <div class="char-tag tag-f2">Arif</div>
             </div>
 
             <div class="cartoon-char" id="shop-friend3" style="left: -275px;">
-                <svg class="char-body-svg" width="66" height="86" viewBox="0 0 80 100">
-                    <circle cx="40" cy="24" r="15" fill="#ffdbac"/>
-                    <path d="M25,22 Q40,9 55,22 Z" fill="#3d3d3d"/>
-                    <circle cx="35" cy="23" r="2" fill="#111"/><circle cx="45" cy="23" r="2" fill="#111"/>
+                <svg class="char-body-svg" width="68" height="88" viewBox="0 0 80 100">
+                    <circle cx="40" cy="24" r="15" fill="url(#skinLight)"/>
+                    <path d="M24,22 C26,8 54,8 56,22 Z" fill="#3d3d3d"/>
+                    <circle cx="35" cy="23" r="2.2" fill="#111"/><circle cx="45" cy="23" r="2.2" fill="#111"/>
                     <path d="M35,30 Q40,34 45,30" stroke="#c0392b" stroke-width="2" fill="none"/>
-                    <rect x="27" y="42" width="26" height="32" rx="8" fill="#fdcb6e"/>
-                    <line x1="34" y1="74" x2="32" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="46" y1="74" x2="48" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
+                    <rect x="26" y="41" width="28" height="32" rx="8" fill="url(#suitGold)"/>
+                    <rect x="30" y="72" width="8" height="19" rx="4" fill="#2f3640"/>
+                    <rect x="42" y="72" width="8" height="19" rx="4" fill="#2f3640"/>
+                    <rect x="27" y="89" width="12" height="5" rx="2.5" fill="#fff"/>
+                    <rect x="41" y="89" width="12" height="5" rx="2.5" fill="#fff"/>
                 </svg>
                 <div class="char-tag">Friends</div>
             </div>
@@ -1086,11 +1232,11 @@
         </div>
     </div>
 
-    <!-- ৫ম পেজ: ছোট সুন্দর কেক, সবাই একসাথে হাত ধরে কাটা, 360° রোটেশন, পাশে ছবির মতো ৩ খুঁটির সাইনবোর্ড -->
+    <!-- ৫ম পেজ: টেবিল আনা -> কেক বক্স আনা -> কেক Unbox -> চোখ বন্ধ করে আনা -> কেক কাটা ও চারপাশে বোম/বেলুন ফাটা -> এক এক করে গিফট -->
     <div class="page story-page" id="page-cake-party">
         <div class="story-top-text">
             <div class="story-sub">SURPRISE CELEBRATION 🎉</div>
-            <div class="story-title" id="party-status-text">সুন্দর করে কেক ও পার্টি সাজানো হচ্ছে... ✨</div>
+            <div class="story-title" id="party-status-text">প্রথমে পার্টি টেবিল সাজানো হচ্ছে... ✨</div>
         </div>
 
         <div class="story-stage">
@@ -1111,90 +1257,107 @@
                 </div>
             </div>
 
-            <!-- ছোট ও সুন্দর কেক টেবিল -->
+            <!-- কেক টেবিল ও Unbox সেটআপ -->
             <div class="cake-table-setup" id="party-table">
+                <div class="cake-unbox-wrapper">
+                    <div class="cake-box-package" id="cake-package-box"></div>
+                </div>
                 <div class="party-cake" id="party-cake-icon">🎂</div>
                 <div class="cake-knife" id="party-knife">🔪</div>
             </div>
 
             <!-- বার্থডে বয়: রিয়ান -->
-            <div class="cartoon-char" id="party-riyan" style="left: -100px;">
+            <div class="cartoon-char" id="party-riyan" style="left: -110px;">
                 <div class="speech-bubble" id="bubble-party-riyan"></div>
-                <svg class="char-body-svg" width="72" height="92" viewBox="0 0 80 100">
-                    <circle cx="40" cy="24" r="16" fill="#ffdbac"/>
-                    <path d="M24,22 Q26,6 40,6 Q54,6 56,22 Q50,14 40,15 Q30,14 24,22 Z" fill="#1e272e"/>
-                    <circle cx="35" cy="23" r="2" fill="#111"/>
-                    <circle cx="45" cy="23" r="2" fill="#111"/>
-                    <rect id="riyan-blindfold" class="blindfold-band" x="24" y="19" width="32" height="8" rx="3" fill="#111111" stroke="#FFD700" stroke-width="1"/>
-                    <path d="M35,31 Q40,36 45,31" stroke="#c0392b" stroke-width="2" fill="none"/>
-                    <rect x="26" y="42" width="28" height="32" rx="8" fill="#00a8ff"/>
-                    <line x1="26" y1="46" x2="12" y2="62" stroke="#ffdbac" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="54" y1="46" x2="72" y2="56" stroke="#ffdbac" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="33" y1="74" x2="31" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="47" y1="74" x2="49" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
+                <svg class="char-body-svg" width="74" height="94" viewBox="0 0 80 100">
+                    <rect x="36" y="36" width="8" height="8" rx="3" fill="url(#skinLight)"/>
+                    <circle cx="40" cy="24" r="16" fill="url(#skinLight)"/>
+                    <path d="M22,22 C22,6 58,6 58,22 C54,13 46,12 40,13 C32,12 25,14 22,22 Z" fill="#141824"/>
+                    <circle cx="34.5" cy="23.5" r="2.3" fill="#111"/>
+                    <circle cx="45.5" cy="23.5" r="2.3" fill="#111"/>
+                    <rect id="riyan-blindfold" class="blindfold-band" x="23" y="19" width="34" height="8" rx="3" fill="#111111" stroke="#FFD700" stroke-width="1.2"/>
+                    <path d="M35,31 Q40,36 45,31" stroke="#c0392b" stroke-width="2.2" fill="none"/>
+                    <line x1="25" y1="45" x2="12" y2="62" stroke="url(#suitBlue)" stroke-width="6" stroke-linecap="round"/>
+                    <line x1="55" y1="45" x2="72" y2="56" stroke="url(#suitBlue)" stroke-width="6" stroke-linecap="round"/>
+                    <rect x="25" y="41" width="30" height="33" rx="9" fill="url(#suitBlue)"/>
+                    <polygon points="35,41 40,49 45,41" fill="#ffffff"/>
+                    <rect x="29" y="72" width="9" height="20" rx="4" fill="#1e272e"/>
+                    <rect x="42" y="72" width="9" height="20" rx="4" fill="#1e272e"/>
+                    <rect x="26" y="90" width="13" height="6" rx="3" fill="#fff"/>
+                    <rect x="41" y="90" width="13" height="6" rx="3" fill="#fff"/>
                 </svg>
                 <div class="char-tag tag-hero">Riyan</div>
             </div>
 
             <!-- রাকিব -->
-            <div class="cartoon-char" id="party-rakib" style="left: -170px;">
+            <div class="cartoon-char" id="party-rakib" style="left: -180px;">
                 <div class="speech-bubble" id="bubble-party-rakib"></div>
-                <svg class="char-body-svg" width="72" height="92" viewBox="0 0 80 100">
+                <svg class="char-body-svg" width="74" height="94" viewBox="0 0 80 100">
                     <polygon points="40,0 29,14 51,14" fill="#FFD700"/>
                     <circle cx="40" cy="0" r="2.5" fill="#ff3e88"/>
-                    <circle cx="40" cy="26" r="16" fill="#f1c27d"/>
-                    <path d="M24,24 Q28,11 40,11 Q52,11 56,24 Q48,17 40,17 Q32,17 24,24 Z" fill="#2c3e50"/>
-                    <circle cx="35" cy="25" r="2" fill="#111"/><circle cx="45" cy="25" r="2" fill="#111"/>
-                    <circle id="rakib-tear" cx="34" cy="29" r="1.8" fill="#00efff" opacity="0"/>
-                    <path id="rakib-mouth" d="M35,32 Q40,37 45,32" stroke="#c0392b" stroke-width="2" fill="none"/>
-                    <rect x="26" y="44" width="28" height="32" rx="8" fill="#ff3e88"/>
-                    <line x1="26" y1="48" x2="15" y2="68" stroke="#f1c27d" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="54" y1="48" x2="72" y2="58" stroke="#f1c27d" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="33" y1="76" x2="31" y2="95" stroke="#1e272e" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="47" y1="76" x2="49" y2="95" stroke="#1e272e" stroke-width="6" stroke-linecap="round"/>
+                    <rect x="36" y="37" width="8" height="8" rx="3" fill="url(#skinWarm)"/>
+                    <circle cx="40" cy="25" r="16" fill="url(#skinWarm)"/>
+                    <path d="M23,23 C25,9 55,9 57,23 C51,16 45,15 40,15 C34,15 28,16 23,23 Z" fill="#2c3e50"/>
+                    <circle cx="34.5" cy="24.5" r="2.3" fill="#111"/><circle cx="45.5" cy="24.5" r="2.3" fill="#111"/>
+                    <circle id="rakib-tear" cx="34" cy="29" r="2" fill="#00efff" opacity="0"/>
+                    <path id="rakib-mouth" d="M35,32 Q40,37 45,32" stroke="#c0392b" stroke-width="2.2" fill="none"/>
+                    <line x1="25" y1="46" x2="14" y2="66" stroke="url(#suitPink)" stroke-width="6" stroke-linecap="round"/>
+                    <line x1="55" y1="46" x2="72" y2="58" stroke="url(#suitPink)" stroke-width="6" stroke-linecap="round"/>
+                    <rect x="25" y="42" width="30" height="33" rx="9" fill="url(#suitPink)"/>
+                    <polygon points="35,42 40,50 45,42" fill="#ffeaa7"/>
+                    <rect x="29" y="73" width="9" height="20" rx="4" fill="#1e272e"/>
+                    <rect x="42" y="73" width="9" height="20" rx="4" fill="#1e272e"/>
+                    <rect x="26" y="91" width="13" height="6" rx="3" fill="#FFD700"/>
+                    <rect x="41" y="91" width="13" height="6" rx="3" fill="#FFD700"/>
                 </svg>
                 <div class="char-tag tag-friend">Rakib</div>
             </div>
 
-            <!-- বন্ধু ১: সিয়াম -->
-            <div class="cartoon-char" id="party-friend1" style="right: -100px;">
+            <!-- বন্ধু ১: সিয়াম (প্রথমে কেক বক্স নিয়ে আসবে) -->
+            <div class="cartoon-char" id="party-friend1" style="right: -110px;">
                 <div class="speech-bubble" id="bubble-party-f1"></div>
-                <svg class="char-body-svg" width="68" height="88" viewBox="0 0 80 100">
-                    <circle cx="40" cy="24" r="15" fill="#ffdbac"/>
-                    <path d="M25,22 Q40,8 55,22 Z" fill="#2d3436"/>
-                    <circle cx="35" cy="23" r="2" fill="#111"/><circle cx="45" cy="23" r="2" fill="#111"/>
+                <div class="carried-cake" id="siam-carrying-box">🎁</div>
+                <svg class="char-body-svg" width="70" height="90" viewBox="0 0 80 100">
+                    <circle cx="40" cy="24" r="15" fill="url(#skinLight)"/>
+                    <path d="M24,22 C26,7 54,7 56,22 Z" fill="#2d3436"/>
+                    <circle cx="35" cy="23" r="2.2" fill="#111"/><circle cx="45" cy="23" r="2.2" fill="#111"/>
                     <path d="M35,30 Q40,34 45,30" stroke="#c0392b" stroke-width="2" fill="none"/>
-                    <rect x="27" y="42" width="26" height="32" rx="8" fill="#00b894"/>
-                    <line x1="27" y1="46" x2="8" y2="56" stroke="#ffdbac" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="53" y1="46" x2="68" y2="62" stroke="#ffdbac" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="34" y1="74" x2="32" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="46" y1="74" x2="48" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
+                    <line x1="27" y1="46" x2="8" y2="56" stroke="url(#suitGreen)" stroke-width="5.5" stroke-linecap="round"/>
+                    <line x1="53" y1="46" x2="68" y2="62" stroke="url(#suitGreen)" stroke-width="5.5" stroke-linecap="round"/>
+                    <rect x="26" y="41" width="28" height="32" rx="8" fill="url(#suitGreen)"/>
+                    <rect x="30" y="72" width="8" height="19" rx="4" fill="#2f3640"/>
+                    <rect x="42" y="72" width="8" height="19" rx="4" fill="#2f3640"/>
+                    <rect x="27" y="89" width="12" height="5" rx="2.5" fill="#fff"/>
+                    <rect x="41" y="89" width="12" height="5" rx="2.5" fill="#fff"/>
                 </svg>
                 <div class="char-tag tag-f1">Siam</div>
             </div>
 
             <!-- বন্ধু ২: আরিফ -->
-            <div class="cartoon-char" id="party-friend2" style="right: -165px;">
+            <div class="cartoon-char" id="party-friend2" style="right: -175px;">
                 <div class="speech-bubble" id="bubble-party-f2"></div>
-                <svg class="char-body-svg" width="68" height="88" viewBox="0 0 80 100">
-                    <circle cx="40" cy="24" r="15" fill="#f1c27d"/>
-                    <path d="M25,22 Q40,6 55,22 Z" fill="#1e272e"/>
-                    <circle cx="35" cy="23" r="2" fill="#111"/><circle cx="45" cy="23" r="2" fill="#111"/>
+                <svg class="char-body-svg" width="70" height="90" viewBox="0 0 80 100">
+                    <circle cx="40" cy="24" r="15" fill="url(#skinWarm)"/>
+                    <path d="M24,22 C26,6 54,6 56,22 Z" fill="#1e272e"/>
+                    <circle cx="35" cy="23" r="2.2" fill="#111"/><circle cx="45" cy="23" r="2.2" fill="#111"/>
                     <path d="M35,30 Q40,34 45,30" stroke="#c0392b" stroke-width="2" fill="none"/>
-                    <rect x="27" y="42" width="26" height="32" rx="8" fill="#a29bfe"/>
-                    <line x1="27" y1="46" x2="10" y2="58" stroke="#f1c27d" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="53" y1="46" x2="65" y2="64" stroke="#f1c27d" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="34" y1="74" x2="32" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="46" y1="74" x2="48" y2="94" stroke="#2f3640" stroke-width="6" stroke-linecap="round"/>
+                    <line x1="27" y1="46" x2="10" y2="58" stroke="url(#suitPurple)" stroke-width="5.5" stroke-linecap="round"/>
+                    <line x1="53" y1="46" x2="65" y2="64" stroke="url(#suitPurple)" stroke-width="5.5" stroke-linecap="round"/>
+                    <rect x="26" y="41" width="28" height="32" rx="8" fill="url(#suitPurple)"/>
+                    <rect x="30" y="72" width="8" height="19" rx="4" fill="#2f3640"/>
+                    <rect x="42" y="72" width="8" height="19" rx="4" fill="#2f3640"/>
+                    <rect x="27" y="89" width="12" height="5" rx="2.5" fill="#fff"/>
+                    <rect x="41" y="89" width="12" height="5" rx="2.5" fill="#fff"/>
                 </svg>
                 <div class="char-tag tag-f2">Arif</div>
             </div>
 
-            <!-- কেক খাওয়ানো ও গিফট বক্স এনিমেশন -->
+            <!-- কেক খাওয়ানো ও এক এক করে গিফট দেওয়ার বক্স -->
             <div class="floating-slice" id="cake-slice-1" style="bottom: 125px; left: 45%;">🍰</div>
             <div class="floating-slice" id="cake-slice-2" style="bottom: 125px; left: 52%;">🍰</div>
-            <div class="gift-box-anim" id="gift-1" style="bottom: 115px; right: 26%;">🎁</div>
-            <div class="gift-box-anim" id="gift-2" style="bottom: 120px; right: 16%;">🎁</div>
+            <div class="gift-box-anim" id="gift-1" style="bottom: 115px; right: 32%;">🎁</div>
+            <div class="gift-box-anim" id="gift-2" style="bottom: 120px; right: 20%;">🎀</div>
+            <div class="gift-box-anim" id="gift-3" style="bottom: 125px; right: 12%;">💝</div>
 
             <div class="story-ground"></div>
         </div>
@@ -1291,7 +1454,7 @@
             <textarea id="msgInput" rows="4" placeholder="আপনার সুন্দর মন্তব্য বা অনুভূতি এখানে লিখুন..."></textarea>
             <button class="btn" onclick="sendToTelegram()">মন্তব্য পাঠান 🚀</button>
         </div>
-        <div style="margin-top: 20px; font-size: 0.8rem; opacity: 0.6;">Power By Netjoddha 🇧🇩</div>
+        <div style="margin-top: 20px; font-size: 0.82rem; opacity: 0.75;">Power By <span class="dynamic-credit" style="color: #00efff; font-weight: 600;">Net Joddha</span> 🇧🇩</div>
     </div>
 
     <!-- Firebase SDK -->
@@ -1316,11 +1479,12 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // ডিফল্ট কনফিগারেশন
+        // ডিফল্ট কনফিগারেশন (এডমিন থেকে পরিবর্তন করলে সব জায়গায় আপডেট হবে)
         let config = {
             pageTitle: "Happy Birthday Bijoy Vai!",
             name: "CSB CEO-BIJOY",
             badgeName: "CSB CEO - BIJOY VAI",
+            creditName: "Net Joddha",
             music: "song.mp3",
             introSub: "A LITTLE SURPRISE FOR YOU",
             introHey: "Hey",
@@ -1374,6 +1538,7 @@
         function applyConfigData() {
             document.title = config.pageTitle || ("Happy Birthday " + config.name);
             document.querySelectorAll('.dynamic-name').forEach(e => e.innerText = config.name);
+            document.querySelectorAll('.dynamic-credit').forEach(e => e.innerText = config.creditName || "Net Joddha");
             document.getElementById('gallery-badge').innerText = config.badgeName || config.name;
 
             document.getElementById('ui-intro-sub').innerText = config.introSub;
@@ -1450,7 +1615,7 @@
             runTreeAndCartoonStory();
         }
 
-        // ৩য় পেজ: গাছ ও রাকিব-রিয়ানের দেখা হওয়া (নাম ছাড়া শুধু মেসেজ উঠবে)
+        // ৩য় পেজ: গাছ ও রাকিব-রিয়ানের দেখা হওয়া
         function runTreeAndCartoonStory() {
             const riyan = document.getElementById('char-riyan');
             const rakib = document.getElementById('char-rakib');
@@ -1466,7 +1631,6 @@
                 rakib.style.right = "22%";
             }, 2600);
 
-            // রিয়ান কথা বলবে (শুধু মেসেজ)
             setTimeout(() => {
                 riyan.classList.remove('walking');
                 rakib.classList.remove('walking');
@@ -1474,14 +1638,12 @@
                 bubbleRiyan.classList.add('show');
             }, 6000);
 
-            // রাকিব উত্তর দিবে (শুধু মেসেজ)
             setTimeout(() => {
                 bubbleRiyan.classList.remove('show');
                 bubbleRakib.innerText = config.dlgHlw;
                 bubbleRakib.classList.add('show');
             }, 8500);
 
-            // রাকিব বার্থডে উইশ করবে (শুধু মেসেজ)
             setTimeout(() => {
                 bubbleRakib.classList.remove('show');
                 setTimeout(() => {
@@ -1490,7 +1652,6 @@
                 }, 300);
             }, 11000);
 
-            // ২ জন একসাথে ধীরে হেঁটে চলে যাবে
             setTimeout(() => {
                 bubbleRakib.classList.remove('show');
                 riyan.classList.add('walking');
@@ -1524,7 +1685,7 @@
             }, 280);
         }
 
-        // ৪র্থ পেজ: দোকান থেকে কেক নিয়ে আসা (নাম ছাড়া শুধু মেসেজ)
+        // ৪র্থ পেজ: দোকান থেকে কেক বক্স নিয়ে আসা
         function runCakeShopStory() {
             const rakib = document.getElementById('shop-rakib');
             const f1 = document.getElementById('shop-friend1');
@@ -1547,7 +1708,7 @@
                 [rakib, f1, f2, f3].forEach(c => c.classList.remove('walking'));
                 bubble.innerText = config.dlgShop;
                 bubble.classList.add('show');
-                statusText.innerText = "দোকান থেকে স্পেশাল কেক নেওয়া হচ্ছে...";
+                statusText.innerText = "দোকান থেকে স্পেশাল কেক বক্স নেওয়া হচ্ছে...";
             }, 3800);
 
             setTimeout(() => {
@@ -1570,10 +1731,12 @@
             }, 11200);
         }
 
-        // ৫ম পেজ: ছোট সুন্দর কেক, সবাই একসাথে হাত ধরে কাটা, 360° রোটেশন, পাশে ছবির মতো ৩ খুঁটির সাইনবোর্ড
+        // ৫ম পেজ: প্রথমে টেবিল -> একজন কেক বক্স আনবে -> Unbox করবে -> চোখ বন্ধ করে আনবে -> কেক কাটলে চারপাশে বোম ও বেলুন ফাটবে -> এক এক করে গিফট দিবে
         function runCakePartyStory() {
             const banner = document.getElementById('party-banner');
             const table = document.getElementById('party-table');
+            const packageBox = document.getElementById('cake-package-box');
+            const siamCarryBox = document.getElementById('siam-carrying-box');
             const cakeIcon = document.getElementById('party-cake-icon');
             const signboard = document.getElementById('party-signboard');
             const statusText = document.getElementById('party-status-text');
@@ -1588,40 +1751,71 @@
             const bubbleF1 = document.getElementById('bubble-party-f1');
             const bubbleF2 = document.getElementById('bubble-party-f2');
 
-            // ১. সুন্দর করে ব্যানার ও কেক টেবিল সাজানো হবে
+            // ধাপ ১: প্রথমে শুধু টেবিল ও ব্যানার সুন্দর করে সাজানো হবে
             setTimeout(() => {
                 banner.classList.add('show');
                 table.classList.add('show');
-            }, 500);
+                statusText.innerText = "প্রথমে পার্টি টেবিল সাজানো হলো... ✨";
+            }, 400);
 
-            // ২. চোখ বন্ধ অবস্থায় রিয়ানকে ধীরে আনা হবে
+            // ধাপ ২: একজন কার্টুন (Siam) কেকের বক্স হাতে করে টেবিলের কাছে আনবে
             setTimeout(() => {
-                statusText.innerText = "চোখ বন্ধ করে সারপ্রাইজ দিতে আনা হচ্ছে... 🙈";
-                [riyan, rakib, f1, f2].forEach(c => c.classList.add('walking'));
-                riyan.style.left = "28%";
-                rakib.style.left = "12%";
-                f1.style.right = "25%";
-                f2.style.right = "9%";
+                statusText.innerText = "এবার টেবিলের ওপর স্পেশাল কেক আনা হচ্ছে... 🎁";
+                siamCarryBox.classList.add('visible');
+                f1.classList.add('walking');
+                f2.classList.add('walking');
+                f1.style.right = "30%";
+                f2.style.right = "10%";
             }, 1800);
 
-            // ৩. চোখের বাঁধন খোলা হবে (শুধু মেসেজ)
+            // ধাপ ৩: টেবিলের ওপর কেক বক্স রাখা হবে
             setTimeout(() => {
-                [riyan, rakib, f1, f2].forEach(c => c.classList.remove('walking'));
+                f1.classList.remove('walking');
+                f2.classList.remove('walking');
+                siamCarryBox.classList.remove('visible');
+                packageBox.classList.add('placed');
+                bubbleF1.innerText = "চলো কেকটা আনবক্স করি! 🎀";
+                bubbleF1.classList.add('show');
+            }, 4600);
+
+            // ধাপ ৪: সুন্দর অ্যানিমেশন আকারে কেক Unbox হবে!
+            setTimeout(() => {
+                statusText.innerText = "কেকটি সুন্দর করে Unbox করা হচ্ছে... 🎂✨";
+                bubbleF1.classList.remove('show');
+                packageBox.classList.add('unboxed');
+                cakeIcon.classList.add('revealed');
+                // আনবক্সিং স্পার্কল ইফেক্ট
+                popBalloonEffect(window.innerWidth * 0.48, window.innerHeight * 0.65, '#FFD700', document.getElementById('bg-effects'));
+            }, 6200);
+
+            // ধাপ ৫: চোখ বন্ধ অবস্থায় রিয়ানকে নিয়ে আসা হবে
+            setTimeout(() => {
+                statusText.innerText = "চোখ বন্ধ করে সারপ্রাইজ দিতে আনা হচ্ছে... 🙈";
+                riyan.classList.add('walking');
+                rakib.classList.add('walking');
+                riyan.style.left = "28%";
+                rakib.style.left = "12%";
+            }, 7800);
+
+            // ধাপ ৬: চোখের বাঁধন খোলা হবে
+            setTimeout(() => {
+                riyan.classList.remove('walking');
+                rakib.classList.remove('walking');
                 bubbleRakib.innerText = config.dlgOpenEyes;
                 bubbleRakib.classList.add('show');
-            }, 5200);
+            }, 10800);
 
             setTimeout(() => {
                 blindfold.style.opacity = "0";
                 bubbleRakib.classList.remove('show');
                 bubbleRiyan.innerText = config.dlgWow;
                 bubbleRiyan.classList.add('show');
-            }, 7200);
+            }, 12600);
 
-            // ৪. সবাই একসাথে হাত ধরে কেক কাটবে + 360° রোটেশন + পাশে ৩ খুঁটির সাইনবোর্ডে ছবি আসবে
+            // ধাপ ৭: সবাই একসাথে হাত ধরে কেক কাটবে + 360° কেক + সাইনবোর্ড + চারপাশে বোম ও বেলুন ফাটবে!
             setTimeout(() => {
                 bubbleRiyan.classList.remove('show');
-                statusText.innerText = "সবাই মিলে কেক কাটা হচ্ছে... 🎂🔪";
+                statusText.innerText = "সবাই মিলে কেক কাটা হচ্ছে! শুভ জন্মদিন! 🎂💥🎈";
                 
                 riyan.style.left = "32%";
                 rakib.style.left = "18%";
@@ -1630,13 +1824,16 @@
 
                 knife.classList.add('cutting');
                 cakeIcon.classList.add('spin360');
-                signboard.classList.add('show'); // ছবির মতো ৩ খুঁটির সাইনবোর্ড ভেসে উঠবে
+                signboard.classList.add('show');
 
                 bubbleF1.innerText = config.dlgTogether;
                 bubbleF1.classList.add('bday-highlight', 'show');
-            }, 9500);
 
-            // ৫. সবাইকে কেক খাওয়ানো হবে
+                // চারপাশে একসাথে বোম ও বেলুন ফাটার উৎসব!
+                triggerMassiveCelebration();
+            }, 14600);
+
+            // ধাপ ৮: সবাইকে কেক খাওয়ানো হবে
             setTimeout(() => {
                 knife.classList.remove('cutting');
                 statusText.innerText = "সবাই মিলে কেক খাচ্ছে ও আনন্দ করছে... 🍰🥳";
@@ -1650,9 +1847,9 @@
                     s1.style.opacity = "0";
                     s2.style.opacity = "0";
                 }, 1800);
-            }, 12500);
+            }, 17600);
 
-            // ৬. সবাই অনেক মজা করবে, রাকিব অন্য দিকে Sad Mood-এ থাকবে
+            // ধাপ ৯: সবাই মজা করবে, রাকিব একপাশে Sad Mood-এ দাঁড়াবে
             setTimeout(() => {
                 bubbleF1.classList.remove('show');
                 rakib.classList.add('walking');
@@ -1666,38 +1863,78 @@
 
                 setTimeout(() => {
                     rakib.classList.remove('walking');
-                }, 2200);
-            }, 14800);
+                }, 2000);
+            }, 19800);
 
-            // ৭. পরে সবাই মিলে সুন্দর করে গিফট দেবে (শুধু মেসেজ)
+            // ধাপ ১০: এক এক করে সবাই গিফট দিবে!
+            // ১ম গিফট (Siam দিবে)
             setTimeout(() => {
-                statusText.innerText = "সবাই মিলে সুন্দর করে গিফট দিচ্ছে... 🎁❤️";
+                statusText.innerText = "এক এক করে সবাই জন্মদিনের গিফট দিচ্ছে... 🎁✨";
                 [riyan, f1, f2].forEach(c => c.classList.remove('celebrating'));
-                
-                bubbleF2.innerText = config.dlgGift;
-                bubbleF2.classList.add('show');
+                bubbleF1.innerText = config.dlgGift;
+                bubbleF1.classList.add('show');
 
                 const g1 = document.getElementById('gift-1');
-                const g2 = document.getElementById('gift-2');
                 g1.style.opacity = "1";
+                g1.style.transform = "translate(-48px, -22px) scale(1.25)";
+            }, 22200);
+
+            // ২য় গিফট (Arif দিবে)
+            setTimeout(() => {
+                bubbleF1.classList.remove('show');
+                bubbleF2.innerText = "আমার পক্ষ থেকেও স্পেশাল গিফট! 🎀";
+                bubbleF2.classList.add('show');
+
+                const g2 = document.getElementById('gift-2');
                 g2.style.opacity = "1";
-                g1.style.transform = "translate(-50px, -22px) scale(1.25)";
-                g2.style.transform = "translate(-70px, -12px) scale(1.25)";
+                g2.style.transform = "translate(-68px, -16px) scale(1.25)";
+            }, 24400);
 
-                setTimeout(() => {
-                    bubbleF2.classList.remove('show');
-                    bubbleRiyan.innerText = "ধন্যবাদ সবাইকে! ❤️🥳";
-                    bubbleRiyan.classList.add('bday-highlight', 'show');
-                }, 2200);
-            }, 17800);
+            // ৩য় গিফট ও ধন্যবাদ
+            setTimeout(() => {
+                bubbleF2.classList.remove('show');
+                const g3 = document.getElementById('gift-3');
+                g3.style.opacity = "1";
+                g3.style.transform = "translate(-85px, -10px) scale(1.25)";
 
-            // ৮. ৩-২-১ কাউন্টডাউন শুরু হবে
+                bubbleRiyan.innerText = "ধন্যবাদ সবাইকে! ❤️🥳";
+                bubbleRiyan.classList.add('bday-highlight', 'show');
+            }, 26600);
+
+            // ধাপ ১১: ৩-২-১ কাউন্টডাউন শুরু হবে
             setTimeout(() => {
                 startCountdown();
-            }, 22200);
+            }, 29500);
         }
 
-        // ব্যাকগ্রাউন্ড বেলুন (ক্লিক করলে ফুটবে!) ও ফায়ারওয়ার্কস
+        // কেক কাটার সময় চারপাশে বোম ও বেলুন ফাটার ফাংশন
+        function triggerMassiveCelebration() {
+            const container = document.getElementById('bg-effects');
+            const colors = ['#FF4D4D', '#4DFF4D', '#4D4DFF', '#FFD700', '#FF00DE', '#00EFFF'];
+
+            // ১. স্ক্রিনে থাকা বেলুনগুলো পপ করে ফাটবে
+            const existingBalloons = document.querySelectorAll('.balloon');
+            existingBalloons.forEach((b, idx) => {
+                if (idx < 12) {
+                    setTimeout(() => {
+                        const rect = b.getBoundingClientRect();
+                        if (rect.top > 0 && rect.top < window.innerHeight) {
+                            popBalloonEffect(rect.left + 15, rect.top + 20, b.style.backgroundColor || '#ff3d7f', container);
+                            b.remove();
+                            setTimeout(() => spawnBalloon(container, colors, false), 1000);
+                        }
+                    }, idx * 140);
+                }
+            });
+
+            // ২. চারপাশে একসাথে ১২টি বড় বোম/ফায়ারওয়ার্কস ফাটবে
+            for (let i = 0; i < 12; i++) {
+                setTimeout(() => {
+                    createFirework(container, colors);
+                }, i * 180);
+            }
+        }
+
         function startBackgroundEffects() {
             const container = document.getElementById('bg-effects');
             const colors = ['#FF4D4D', '#4DFF4D', '#4D4DFF', '#FFFF4D', '#FF4DFF', '#00EFFF'];
@@ -1731,26 +1968,26 @@
         }
 
         function popBalloonEffect(x, y, color, container) {
-            for(let i=0; i<14; i++) {
+            for(let i=0; i<16; i++) {
                 let p = document.createElement('div');
                 p.className = 'firework-particle';
                 p.style.left = x + 'px';
                 p.style.top = y + 'px';
                 p.style.backgroundColor = color;
                 const angle = Math.random() * Math.PI * 2;
-                const dist = Math.random() * 65 + 20;
+                const dist = Math.random() * 75 + 20;
                 p.style.setProperty('--x', Math.cos(angle) * dist + 'px');
                 p.style.setProperty('--y', Math.sin(angle) * dist + 'px');
                 container.appendChild(p);
-                setTimeout(() => p.remove(), 900);
+                setTimeout(() => p.remove(), 950);
             }
         }
 
         function createFirework(container, colors) {
-            const x = Math.random() * 100;
-            const y = Math.random() * 60 + 10;
+            const x = Math.random() * 90 + 5;
+            const y = Math.random() * 65 + 10;
             
-            for(let i=0; i<20; i++) {
+            for(let i=0; i<24; i++) {
                 let p = document.createElement('div');
                 p.className = 'firework-particle';
                 p.style.left = x + '%';
@@ -1758,7 +1995,7 @@
                 p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 
                 const angle = Math.random() * Math.PI * 2;
-                const distance = Math.random() * 100 + 50;
+                const distance = Math.random() * 110 + 45;
                 const tx = Math.cos(angle) * distance + 'px';
                 const ty = Math.sin(angle) * distance + 'px';
                 
@@ -1766,7 +2003,7 @@
                 p.style.setProperty('--y', ty);
                 
                 container.appendChild(p);
-                setTimeout(() => p.remove(), 1000);
+                setTimeout(() => p.remove(), 1100);
             }
         }
 
@@ -1889,7 +2126,7 @@
 <blockquote>${msg}</blockquote>
 ➖➖➖➖➖➖➖➖➖➖
 ⌚ <b>Time:</b> ${new Date().toLocaleTimeString()}
-🚀 <b>Sent Via:</b> Birthday Site
+🚀 <b>Power By:</b> ${config.creditName || "Net Joddha"}
             `;
 
             fetch(`https://api.telegram.org/bot${config.botToken}/sendMessage?chat_id=${config.chatId}&text=${encodeURIComponent(formattedMsg)}&parse_mode=HTML`)
