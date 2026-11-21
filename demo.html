@@ -113,7 +113,7 @@
             margin-bottom: 5px;
         }
 
-        input, textarea {
+        input, select, textarea {
             width: 100%;
             background: rgba(0, 0, 0, 0.45);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -126,7 +126,12 @@
             transition: 0.3s;
         }
 
-        input:focus, textarea:focus {
+        select option {
+            background: #140812;
+            color: #fff;
+        }
+
+        input:focus, select:focus, textarea:focus {
             border-color: var(--cyan);
             box-shadow: 0 0 12px rgba(0, 239, 255, 0.25);
         }
@@ -165,6 +170,13 @@
             color: #000;
         }
 
+        .audio-preview-player {
+            width: 100%;
+            height: 36px;
+            margin-top: 8px;
+            border-radius: 8px;
+        }
+
         .btn-save {
             width: 100%;
             background: linear-gradient(135deg, var(--pink), var(--cyan));
@@ -201,18 +213,18 @@
 </head>
 <body>
 
-    <!-- লগইন বক্স -->
+    <!-- লগইন বক্স (কোনো অটোমেটিক ইমেইল/পাসওয়ার্ড থাকবে না) -->
     <div class="container" id="login-box">
         <div class="header" style="justify-content: center;">
             <h1>🔐 CSB ADMIN LOGIN</h1>
         </div>
         <div class="form-group">
             <label>Admin Email</label>
-            <input type="email" id="adminEmail" value="netjoddha@gmail.com">
+            <input type="email" id="adminEmail" placeholder="আপনার এডমিন ইমেইল লিখুন" autocomplete="off">
         </div>
         <div class="form-group">
             <label>Password</label>
-            <input type="password" id="adminPass" value="@netjoddha@8617">
+            <input type="password" id="adminPass" placeholder="••••••••••••" autocomplete="new-password">
         </div>
         <button class="btn-save" onclick="loginAdmin()">Login / Setup Admin 🚀</button>
         <p id="login-error" style="color: #ff4757; text-align: center; margin-top: 12px; font-size: 0.85rem;"></p>
@@ -235,7 +247,7 @@
                 <input type="text" id="pageTitle" placeholder="Happy Birthday Bijoy Vai!">
             </div>
             <div class="form-group">
-                <label> ডেভেলপার/ক্রেডিট নাম (সব জায়গায় By ... পরিবর্তন হবে)</label>
+                <label>ডেভেলপার/ক্রেডিট নাম (সব জায়গায় By ... পরিবর্তন হবে)</label>
                 <input type="text" id="creditName" placeholder="Net Joddha">
             </div>
         </div>
@@ -249,10 +261,17 @@
                 <input type="text" id="badgeName" placeholder="CSB CEO - BIJOY VAI">
             </div>
         </div>
+
+        <!-- গান যোগ করার সিস্টেম (লিংক বা ফাইল আপলোড) -->
         <div class="form-group">
-            <label>ব্যাকগ্রাউন্ড মিউজিক (.mp3 লিংক বা ফাইল নাম)</label>
-            <input type="text" id="music" placeholder="song.mp3">
+            <label>ব্যাকগ্রাউন্ড মিউজিক (.mp3 লিংক বা ডিভাইস থেকে গান আপলোড করুন)</label>
+            <div class="img-preview-row">
+                <input type="text" id="music" placeholder="song.mp3 বা MP3 লিংক দিন" oninput="updateMusicPreview()">
+                <label class="upload-label">🎵 গান ফাইল<input type="file" accept="audio/*" style="display:none" onchange="uploadAudioFile(this)"></label>
+            </div>
+            <audio id="audio-preview" class="audio-preview-player" controls></audio>
         </div>
+
         <div class="grid-2">
             <div class="form-group">
                 <label>ইন্ট্রো ছোট নোটিশ (উপরে)</label>
@@ -272,7 +291,14 @@
             <input type="text" id="treeTitle" placeholder="My dearest, Happy Birthday! 🎂">
         </div>
 
-        <div class="section-title">২. কার্টুনদের নাম (নিচের ট্যাগে যা দেখাবে)</div>
+        <div class="section-title">২. কার্টুন সিলেকশন (ছেলে/মেয়ে) ও নামসমূহ</div>
+        <div class="form-group">
+            <label>বার্থডে স্টার কার্টুন (ছেলে নাকি মেয়ে সিলেক্ট করুন)</label>
+            <select id="heroGender">
+                <option value="girl">👧 মেয়ে কার্টুন (Cute Girl 3D Cartoon)</option>
+                <option value="boy">👦 ছেলে কার্টুন (Cute Boy 3D Cartoon)</option>
+            </select>
+        </div>
         <div class="grid-2">
             <div class="form-group">
                 <label>বার্থডে কার্টুনের নাম (Riyan)</label>
@@ -295,16 +321,16 @@
         <div class="section-title">৩. কার্টুনদের কথোপকথন (শুধু মেসেজগুলো যা বাবলে উঠবে)</div>
         <div class="grid-2">
             <div class="form-group">
-                <label>১ম কথা (গাছের নিচে - Hi Rakib)</label>
+                <label>১ম কথা (গাছের নিচে Rakib বলবে - Hi)</label>
                 <input type="text" id="dlgHi">
             </div>
             <div class="form-group">
-                <label>২য় কথা (গাছের নিচে - Hlw Riyan)</label>
+                <label>২য় কথা (গাছের নিচে Riyan বলবে - Hlw)</label>
                 <input type="text" id="dlgHlw">
             </div>
         </div>
         <div class="form-group">
-            <label>৩য় কথা (গাছের নিচে উইশ - Happy Birthday)</label>
+            <label>৩য় কথা (গাছের নিচে Rakib উইশ করবে - Happy Birthday)</label>
             <input type="text" id="dlgWish">
         </div>
         <div class="form-group">
@@ -317,7 +343,7 @@
                 <input type="text" id="dlgOpenEyes">
             </div>
             <div class="form-group">
-                <label>সারপ্রাইজ দেখে বার্থডে বয়ের কথা</label>
+                <label>সারপ্রাইজ দেখে বার্থডে স্টারের কথা</label>
                 <input type="text" id="dlgWow">
             </div>
         </div>
@@ -467,6 +493,7 @@
             badgeName: "CSB CEO - BIJOY VAI",
             creditName: "Net Joddha",
             music: "song.mp3",
+            heroGender: "girl",
             introSub: "A LITTLE SURPRISE FOR YOU",
             introHey: "Hey",
             introDesc: "I made something special just for you.",
@@ -475,8 +502,8 @@
             friendCharName: "Rakib",
             friend1Name: "Siam",
             friend2Name: "Arif",
-            dlgHi: "Hi Rakib 👋",
-            dlgHlw: "Hlw Riyan 😊",
+            dlgHi: "Hi Riyan 👋",
+            dlgHlw: "Hlw Rakib 😊",
             dlgWish: "Happy Birthday Riyan! 🎂🎉",
             dlgShop: "ভাই, সেরা স্পেশাল কেকটা দিন! 🎂",
             dlgOpenEyes: "এবার চোখ খোলো রিয়ান! 🎉",
@@ -519,6 +546,9 @@
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem("csb_admin_logged") === "true") {
                 showDashboard();
+            } else {
+                document.getElementById('adminEmail').value = "";
+                document.getElementById('adminPass').value = "";
             }
         });
 
@@ -527,8 +557,16 @@
             const pass = document.getElementById('adminPass').value.trim();
             const errEl = document.getElementById('login-error');
 
+            if (!email || !pass) {
+                errEl.style.color = "#ff4757";
+                errEl.innerText = "❌ অনুগ্রহ করে ইমেইল এবং পাসওয়ার্ড লিখুন!";
+                return;
+            }
+
             if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
                 errEl.innerText = "";
+                document.getElementById('adminEmail').value = "";
+                document.getElementById('adminPass').value = "";
                 localStorage.setItem("csb_admin_logged", "true");
                 showDashboard();
             } else {
@@ -545,12 +583,41 @@
 
         function logoutAdmin() {
             localStorage.removeItem("csb_admin_logged");
+            document.getElementById('adminEmail').value = "";
+            document.getElementById('adminPass').value = "";
             document.getElementById('login-box').classList.remove('hidden');
             document.getElementById('dashboard-box').classList.add('hidden');
         }
 
         function updateThumb(inputId, imgId) {
             document.getElementById(imgId).src = document.getElementById(inputId).value;
+        }
+
+        function updateMusicPreview() {
+            const src = document.getElementById('music').value.trim();
+            const audioEl = document.getElementById('audio-preview');
+            if (src) {
+                audioEl.src = src;
+            }
+        }
+
+        function uploadAudioFile(fileInput) {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            if (file.size > 4.5 * 1024 * 1024) {
+                alert("❌ অডিও ফাইলটি ৪.৫ MB-এর বেশি বড়! ছোট MP3 ফাইল দিন অথবা গানের ডাইরেক্ট লিংক বসান।");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const audioData = e.target.result;
+                document.getElementById('music').value = audioData;
+                updateMusicPreview();
+                alert("✅ গানটি লোড হয়েছে! নিচের 'Save & Update Live Site' বাটনে ক্লিক করে সেভ করুন।");
+            };
+            reader.readAsDataURL(file);
         }
 
         function uploadImageFile(fileInput, targetInputId, thumbId) {
@@ -590,6 +657,7 @@
                     }
                 });
 
+                updateMusicPreview();
                 updateThumb('signboardPic', 'thumb-sign');
                 updateThumb('profilePic', 'thumb-profile');
                 updateThumb('gallery1', 'thumb-g1');
@@ -627,6 +695,7 @@
                     document.getElementById(key).value = defaultValues[key];
                 }
             });
+            updateMusicPreview();
             saveSettings();
         }
     </script>
