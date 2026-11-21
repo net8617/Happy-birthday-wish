@@ -277,7 +277,7 @@
         }
 
         /* =========================================
-           ২.৬ কার্টুন স্টোরি পেজ ডিজাইন (Mobile + Website Responsive)
+           ২.৬ কার্টুন স্টোরি পেজ ডিজাইন (3D Perspective + Responsive)
         ========================================= */
         .story-page {
             padding: 0 !important;
@@ -315,6 +315,8 @@
             display: flex;
             justify-content: center;
             align-items: flex-end;
+            perspective: 1100px;
+            transform-style: preserve-3d;
         }
 
         @media (min-width: 768px) {
@@ -404,40 +406,63 @@
         }
 
         /* =========================================
-           প্রফেশনাল কার্টুন ক্যারেক্টার ডিজাইন
+           প্রফেশনাল 3D কার্টুন ক্যারেক্টার ডিজাইন (ছবির আদলে কিউট ৩ডি লুক)
         ========================================= */
         .cartoon-char {
             position: absolute;
             bottom: 48px;
-            width: 78px;
-            height: 122px;
+            width: 82px;
+            height: 128px;
             z-index: 8;
             transition: left 2.8s ease-in-out, right 2.8s ease-in-out, transform 0.8s ease, opacity 0.8s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
-            filter: drop-shadow(0 8px 14px rgba(0,0,0,0.55));
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 12px 16px rgba(0,0,0,0.65));
+        }
+
+        /* পায়ের নিচে 3D শ্যাডো */
+        .cartoon-char::after {
+            content: '';
+            position: absolute;
+            bottom: 18px;
+            width: 50px;
+            height: 10px;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.65) 0%, transparent 75%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .char-body-svg {
+            animation: idle3DBreathe 2.8s ease-in-out infinite;
+            transform-origin: bottom center;
+        }
+
+        @keyframes idle3DBreathe {
+            0%, 100% { transform: perspective(500px) rotateY(-4deg) scaleY(1); }
+            50% { transform: perspective(500px) rotateY(4deg) scaleY(1.025) translateY(-2px); }
         }
 
         #char-riyan { left: -110px; }
         #char-rakib { right: -110px; }
 
         .walking .char-body-svg {
-            animation: walkBounce 0.52s infinite alternate ease-in-out;
+            animation: walkBounce3D 0.48s infinite alternate ease-in-out;
         }
 
-        @keyframes walkBounce {
-            0% { transform: translateY(0) rotate(-2.5deg); }
-            100% { transform: translateY(-7px) rotate(2.5deg); }
+        @keyframes walkBounce3D {
+            0% { transform: perspective(500px) rotateY(-8deg) translateY(0) rotate(-3deg); }
+            100% { transform: perspective(500px) rotateY(8deg) translateY(-8px) rotate(3deg); }
         }
 
         .celebrating .char-body-svg {
-            animation: partyJump 0.55s infinite alternate ease-in-out;
+            animation: partyJump3D 0.55s infinite alternate ease-in-out;
         }
 
-        @keyframes partyJump {
-            0% { transform: translateY(0) scale(1); }
-            100% { transform: translateY(-15px) scale(1.06); }
+        @keyframes partyJump3D {
+            0% { transform: perspective(500px) rotateY(-12deg) translateY(0) scale(1); }
+            100% { transform: perspective(500px) rotateY(12deg) translateY(-16px) scale(1.07); }
         }
 
         .sad-mood .char-body-svg {
@@ -449,7 +474,7 @@
         .char-tag {
             font-size: 0.7rem;
             font-weight: 600;
-            background: linear-gradient(135deg, rgba(20, 8, 18, 0.9), rgba(45, 12, 35, 0.9));
+            background: linear-gradient(135deg, rgba(20, 8, 18, 0.92), rgba(45, 12, 35, 0.92));
             border: 1px solid rgba(255, 215, 0, 0.45);
             padding: 2px 10px;
             border-radius: 20px;
@@ -462,7 +487,7 @@
         /* কথা বলার স্পিচ বাবল */
         .speech-bubble {
             position: absolute;
-            bottom: 126px;
+            bottom: 132px;
             left: 50%;
             background: #ffffff;
             color: #1b0914;
@@ -618,7 +643,6 @@
             transform: translateX(-50%) translateY(0) scale(1);
         }
 
-        /* কেকের বক্স (Unbox করার জন্য) */
         .cake-unbox-wrapper {
             position: absolute;
             top: -42px;
@@ -705,7 +729,7 @@
             100% { transform: translateY(14px) rotate(-10deg) scale(1.08); }
         }
 
-        /* ছবির মতো আসল ৩-খুঁটিওয়ালা সাদা ফ্রেমের বিলবোর্ড / সাইনবোর্ড */
+        /* ৩-খুঁটিওয়ালা সাদা ফ্রেমের বিলবোর্ড / সাইনবোর্ড */
         .party-signboard {
             position: absolute;
             bottom: 175px;
@@ -956,20 +980,31 @@
 </head>
 <body onclick="enableMusic()"> 
     
-    <!-- গ্লোবাল প্রফেশনাল কার্টুন গ্রেডিয়েন্ট ডেফিনিশন -->
+    <!-- গ্লোবাল প্রফেশনাল 3D কার্টুন গ্রেডিয়েন্ট ডেফিনিশন -->
     <svg width="0" height="0" style="position:absolute">
         <defs>
-            <linearGradient id="skinLight" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#ffe5c4"/>
-                <stop offset="100%" stop-color="#f3c193"/>
+            <radialGradient id="skin3DLight" cx="40%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#fff0e0"/>
+                <stop offset="65%" stop-color="#ffd5b5"/>
+                <stop offset="100%" stop-color="#e5a982"/>
+            </radialGradient>
+            <radialGradient id="skin3DWarm" cx="40%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#ffe6cc"/>
+                <stop offset="65%" stop-color="#f5c293"/>
+                <stop offset="100%" stop-color="#d49663"/>
+            </radialGradient>
+            <linearGradient id="hairBrown3D" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6b442a"/>
+                <stop offset="50%" stop-color="#4a2c18"/>
+                <stop offset="100%" stop-color="#29170b"/>
             </linearGradient>
-            <linearGradient id="skinWarm" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#ffdbb0"/>
-                <stop offset="100%" stop-color="#e5b07e"/>
+            <linearGradient id="suitPurple3D" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6c5ce7"/>
+                <stop offset="100%" stop-color="#3c2f80"/>
             </linearGradient>
-            <linearGradient id="suitBlue" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#00d2ff"/>
-                <stop offset="100%" stop-color="#0066ff"/>
+            <linearGradient id="suitCream3D" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="100%" stop-color="#f3e5eb"/>
             </linearGradient>
             <linearGradient id="suitPink" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stop-color="#ff5e9c"/>
@@ -1024,7 +1059,7 @@
         </div>
     </div>
 
-    <!-- ৩য় পেজ: গাছ, প্রফেশনাল কার্টুন রাকিব-রিয়ান ও ফুল পড়া এনিমেশন -->
+    <!-- ৩য় পেজ: গাছ, প্রফেশনাল 3D কার্টুন রাকিব-রিয়ান ও ফুল পড়া এনিমেশন -->
     <div class="page story-page" id="page-tree-story">
         <div class="story-top-text">
             <div class="story-sub">SOMETHING BEAUTIFUL IS GROWING FOR YOU... ✨</div>
@@ -1071,73 +1106,53 @@
                 </g>
             </svg>
 
-            <!-- প্রফেশনাল কার্টুন ১: বার্থডে বয় (Riyan) -->
+            <!-- প্রফেশনাল 3D কার্টুন ১: বার্থডে স্টার (Riyan - এডমিন থেকে ছেলে/মেয়ে সিলেক্ট করা যাবে) -->
             <div class="cartoon-char" id="char-riyan">
                 <div class="speech-bubble" id="bubble-riyan"></div>
-                <svg class="char-body-svg" width="76" height="96" viewBox="0 0 80 100">
-                    <!-- গলা ও কান -->
-                    <rect x="36" y="36" width="8" height="8" rx="3" fill="url(#skinLight)"/>
-                    <circle cx="23" cy="25" r="3.5" fill="url(#skinLight)"/>
-                    <circle cx="57" cy="25" r="3.5" fill="url(#skinLight)"/>
-                    <!-- মুখ ও স্টাইলিশ চুল -->
-                    <circle cx="40" cy="24" r="16" fill="url(#skinLight)"/>
-                    <path d="M22,22 C22,6 58,6 58,22 C54,13 46,12 40,13 C32,12 25,14 22,22 Z" fill="#141824"/>
-                    <!-- চোখ (চোখের মণির গ্লো সহ) ও ভ্রু -->
-                    <path d="M31,18 Q35,16 38,18" stroke="#141824" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-                    <path d="M42,18 Q45,16 49,18" stroke="#141824" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-                    <circle cx="34.5" cy="23.5" r="2.4" fill="#111"/>
-                    <circle cx="35.3" cy="22.8" r="0.8" fill="#fff"/>
-                    <circle cx="45.5" cy="23.5" r="2.4" fill="#111"/>
-                    <circle cx="46.3" cy="22.8" r="0.8" fill="#fff"/>
-                    <!-- গালের ব্লাশ ও হাসি -->
-                    <ellipse cx="30" cy="27" rx="2.5" ry="1.3" fill="#ff7675" opacity="0.5"/>
-                    <ellipse cx="50" cy="27" rx="2.5" ry="1.3" fill="#ff7675" opacity="0.5"/>
-                    <path d="M35,30 Q40,35 45,30" stroke="#c0392b" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-                    <!-- প্রিমিয়াম জ্যাকেট/হুডি ও হাত -->
-                    <line x1="25" y1="45" x2="14" y2="65" stroke="url(#suitBlue)" stroke-width="6" stroke-linecap="round"/>
-                    <circle cx="14" cy="66" r="3.2" fill="url(#skinLight)"/>
-                    <line x1="55" y1="45" x2="66" y2="65" stroke="url(#suitBlue)" stroke-width="6" stroke-linecap="round"/>
-                    <circle cx="66" cy="66" r="3.2" fill="url(#skinLight)"/>
-                    <rect x="25" y="41" width="30" height="33" rx="9" fill="url(#suitBlue)"/>
-                    <polygon points="35,41 40,49 45,41" fill="#ffffff"/>
-                    <!-- প্যান্ট ও স্নিকার্স জুতো -->
-                    <rect x="29" y="72" width="9" height="20" rx="4" fill="#1e272e"/>
-                    <rect x="42" y="72" width="9" height="20" rx="4" fill="#1e272e"/>
-                    <rect x="26" y="90" width="13" height="6" rx="3" fill="#ffffff"/>
-                    <rect x="41" y="90" width="13" height="6" rx="3" fill="#ffffff"/>
-                </svg>
+                <div class="hero-avatar-mount"></div>
                 <div class="char-tag tag-hero">Riyan</div>
             </div>
 
-            <!-- প্রফেশনাল কার্টুন ২: রাকিব -->
+            <!-- প্রফেশনাল 3D কার্টুন ২: রাকিব (ছবির ছেলে কার্টুনের মতো) -->
             <div class="cartoon-char" id="char-rakib">
                 <div class="speech-bubble" id="bubble-rakib"></div>
-                <svg class="char-body-svg" width="76" height="96" viewBox="0 0 80 100">
+                <svg class="char-body-svg" width="80" height="102" viewBox="0 0 80 105">
                     <!-- বার্থডে ক্যাপ -->
-                    <polygon points="40,0 29,14 51,14" fill="#FFD700"/>
-                    <circle cx="40" cy="0" r="2.8" fill="#ff3e88"/>
-                    <rect x="36" y="37" width="8" height="8" rx="3" fill="url(#skinWarm)"/>
-                    <circle cx="23" cy="26" r="3.5" fill="url(#skinWarm)"/>
-                    <circle cx="57" cy="26" r="3.5" fill="url(#skinWarm)"/>
-                    <circle cx="40" cy="25" r="16" fill="url(#skinWarm)"/>
-                    <path d="M23,23 C25,9 55,9 57,23 C51,16 45,15 40,15 C34,15 28,16 23,23 Z" fill="#2c3e50"/>
-                    <circle cx="34.5" cy="24.5" r="2.4" fill="#111"/>
-                    <circle cx="35.3" cy="23.8" r="0.8" fill="#fff"/>
-                    <circle cx="45.5" cy="24.5" r="2.4" fill="#111"/>
-                    <circle cx="46.3" cy="23.8" r="0.8" fill="#fff"/>
-                    <ellipse cx="30" cy="28" rx="2.5" ry="1.3" fill="#ff7675" opacity="0.45"/>
-                    <ellipse cx="50" cy="28" rx="2.5" ry="1.3" fill="#ff7675" opacity="0.45"/>
-                    <path d="M35,31 Q40,36 45,31" stroke="#c0392b" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-                    <line x1="25" y1="46" x2="14" y2="66" stroke="url(#suitPink)" stroke-width="6" stroke-linecap="round"/>
-                    <circle cx="14" cy="67" r="3.2" fill="url(#skinWarm)"/>
-                    <line x1="55" y1="46" x2="66" y2="66" stroke="url(#suitPink)" stroke-width="6" stroke-linecap="round"/>
-                    <circle cx="66" cy="67" r="3.2" fill="url(#skinWarm)"/>
-                    <rect x="25" y="42" width="30" height="33" rx="9" fill="url(#suitPink)"/>
-                    <polygon points="35,42 40,50 45,42" fill="#ffeaa7"/>
-                    <rect x="29" y="73" width="9" height="20" rx="4" fill="#1e272e"/>
-                    <rect x="42" y="73" width="9" height="20" rx="4" fill="#1e272e"/>
-                    <rect x="26" y="91" width="13" height="6" rx="3" fill="#FFD700"/>
-                    <rect x="41" y="91" width="13" height="6" rx="3" fill="#FFD700"/>
+                    <polygon points="40,0 30,11 50,11" fill="#FFD700"/>
+                    <circle cx="40" cy="0" r="2.5" fill="#ff3e88"/>
+                    <!-- গলা ও কান -->
+                    <rect x="35" y="42" width="10" height="8" rx="3" fill="url(#skin3DWarm)"/>
+                    <circle cx="21" cy="29" r="3.8" fill="url(#skin3DWarm)"/>
+                    <circle cx="59" cy="29" r="3.8" fill="url(#skin3DWarm)"/>
+                    <!-- স্পাইকি ব্রাউন চুল (ছবির ছেলেটির মতো) -->
+                    <path d="M21,26 C18,12 28,6 35,8 L38,4 L43,8 L49,5 L52,10 C60,11 62,19 59,26 C55,17 48,15 40,15 C31,15 24,18 21,26 Z" fill="url(#hairBrown3D)"/>
+                    <!-- মুখমণ্ডল -->
+                    <ellipse cx="40" cy="28" rx="17.5" ry="16" fill="url(#skin3DWarm)"/>
+                    <!-- ঘন ভ্রু ও বড় কিউট 3D চোখ -->
+                    <path d="M28,21 Q33,18.5 37,21" stroke="#3b2314" stroke-width="2.1" fill="none" stroke-linecap="round"/>
+                    <path d="M43,21 Q47,18.5 52,21" stroke="#3b2314" stroke-width="2.1" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="33" cy="26.5" rx="3.4" ry="3.8" fill="#2c1608"/>
+                    <circle cx="34.2" cy="25.2" r="1.3" fill="#ffffff"/>
+                    <circle cx="32.2" cy="27.8" r="0.6" fill="#ffffff"/>
+                    <ellipse cx="47" cy="26.5" rx="3.4" ry="3.8" fill="#2c1608"/>
+                    <circle cx="48.2" cy="25.2" r="1.3" fill="#ffffff"/>
+                    <circle cx="46.2" cy="27.8" r="0.6" fill="#ffffff"/>
+                    <!-- ব্লাশ ও হাসি -->
+                    <ellipse cx="27" cy="31" rx="3.2" ry="1.6" fill="#ff7675" opacity="0.55"/>
+                    <ellipse cx="53" cy="31" rx="3.2" ry="1.6" fill="#ff7675" opacity="0.55"/>
+                    <path d="M34,34.5 Q40,39.5 46,34.5" stroke="#b33939" stroke-width="2.2" fill="#ff9ff3" stroke-linecap="round"/>
+                    <!-- পার্পল সোয়েটার (ছবির ছেলেটির মতো) -->
+                    <line x1="23" y1="52" x2="12" y2="71" stroke="url(#suitPurple3D)" stroke-width="6.5" stroke-linecap="round"/>
+                    <circle cx="12" cy="72" r="3.4" fill="url(#skin3DWarm)"/>
+                    <line x1="57" y1="52" x2="68" y2="71" stroke="url(#suitPurple3D)" stroke-width="6.5" stroke-linecap="round"/>
+                    <circle cx="68" cy="72" r="3.4" fill="url(#skin3DWarm)"/>
+                    <rect x="23" y="48" width="34" height="31" rx="10" fill="url(#suitPurple3D)"/>
+                    <path d="M33,48 Q40,54 47,48" stroke="#a29bfe" stroke-width="2" fill="none"/>
+                    <!-- প্যান্ট ও জুতো -->
+                    <rect x="28" y="77" width="9.5" height="20" rx="4.5" fill="#1e272e"/>
+                    <rect x="42.5" y="77" width="9.5" height="20" rx="4.5" fill="#1e272e"/>
+                    <rect x="25" y="95" width="13.5" height="6.5" rx="3.2" fill="#FFD700"/>
+                    <rect x="41.5" y="95" width="13.5" height="6.5" rx="3.2" fill="#FFD700"/>
                 </svg>
                 <div class="char-tag tag-friend">Rakib</div>
             </div>
@@ -1165,27 +1180,28 @@
             <div class="cartoon-char" id="shop-rakib" style="left: -90px;">
                 <div class="speech-bubble" id="bubble-shop-rakib"></div>
                 <div class="carried-cake" id="rakib-cake">🎁</div>
-                <svg class="char-body-svg" width="72" height="92" viewBox="0 0 80 100">
-                    <polygon points="40,0 29,14 51,14" fill="#FFD700"/>
-                    <rect x="36" y="37" width="8" height="8" rx="3" fill="url(#skinWarm)"/>
-                    <circle cx="40" cy="25" r="16" fill="url(#skinWarm)"/>
-                    <path d="M23,23 C25,9 55,9 57,23 C51,16 45,15 40,15 C34,15 28,16 23,23 Z" fill="#2c3e50"/>
-                    <circle cx="34.5" cy="24.5" r="2.3" fill="#111"/><circle cx="45.5" cy="24.5" r="2.3" fill="#111"/>
-                    <path d="M35,31 Q40,36 45,31" stroke="#c0392b" stroke-width="2.2" fill="none"/>
-                    <line x1="25" y1="46" x2="14" y2="66" stroke="url(#suitPink)" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="55" y1="46" x2="66" y2="66" stroke="url(#suitPink)" stroke-width="6" stroke-linecap="round"/>
-                    <rect x="25" y="42" width="30" height="33" rx="9" fill="url(#suitPink)"/>
-                    <rect x="29" y="73" width="9" height="19" rx="4" fill="#1e272e"/>
-                    <rect x="42" y="73" width="9" height="19" rx="4" fill="#1e272e"/>
-                    <rect x="26" y="90" width="13" height="6" rx="3" fill="#FFD700"/>
-                    <rect x="41" y="90" width="13" height="6" rx="3" fill="#FFD700"/>
+                <svg class="char-body-svg" width="76" height="96" viewBox="0 0 80 105">
+                    <polygon points="40,0 30,11 50,11" fill="#FFD700"/>
+                    <rect x="35" y="42" width="10" height="8" rx="3" fill="url(#skin3DWarm)"/>
+                    <path d="M21,26 C18,12 28,6 35,8 L38,4 L43,8 L49,5 L52,10 C60,11 62,19 59,26 C55,17 48,15 40,15 C31,15 24,18 21,26 Z" fill="url(#hairBrown3D)"/>
+                    <ellipse cx="40" cy="28" rx="17.5" ry="16" fill="url(#skin3DWarm)"/>
+                    <ellipse cx="33" cy="26.5" rx="3.3" ry="3.7" fill="#2c1608"/><circle cx="34.2" cy="25.2" r="1.2" fill="#fff"/>
+                    <ellipse cx="47" cy="26.5" rx="3.3" ry="3.7" fill="#2c1608"/><circle cx="48.2" cy="25.2" r="1.2" fill="#fff"/>
+                    <path d="M34,34.5 Q40,39.5 46,34.5" stroke="#b33939" stroke-width="2.2" fill="none"/>
+                    <line x1="23" y1="52" x2="12" y2="71" stroke="url(#suitPurple3D)" stroke-width="6.5" stroke-linecap="round"/>
+                    <line x1="57" y1="52" x2="68" y2="71" stroke="url(#suitPurple3D)" stroke-width="6.5" stroke-linecap="round"/>
+                    <rect x="23" y="48" width="34" height="31" rx="10" fill="url(#suitPurple3D)"/>
+                    <rect x="28" y="77" width="9.5" height="20" rx="4.5" fill="#1e272e"/>
+                    <rect x="42.5" y="77" width="9.5" height="20" rx="4.5" fill="#1e272e"/>
+                    <rect x="25" y="95" width="13.5" height="6.5" rx="3.2" fill="#FFD700"/>
+                    <rect x="41.5" y="95" width="13.5" height="6.5" rx="3.2" fill="#FFD700"/>
                 </svg>
                 <div class="char-tag tag-friend">Rakib</div>
             </div>
 
             <div class="cartoon-char" id="shop-friend1" style="left: -155px;">
                 <svg class="char-body-svg" width="68" height="88" viewBox="0 0 80 100">
-                    <circle cx="40" cy="24" r="15" fill="url(#skinLight)"/>
+                    <circle cx="40" cy="24" r="15" fill="url(#skin3DLight)"/>
                     <path d="M24,22 C26,7 54,7 56,22 Z" fill="#2d3436"/>
                     <circle cx="35" cy="23" r="2.2" fill="#111"/><circle cx="45" cy="23" r="2.2" fill="#111"/>
                     <path d="M35,30 Q40,34 45,30" stroke="#c0392b" stroke-width="2" fill="none"/>
@@ -1200,7 +1216,7 @@
 
             <div class="cartoon-char" id="shop-friend2" style="left: -215px;">
                 <svg class="char-body-svg" width="68" height="88" viewBox="0 0 80 100">
-                    <circle cx="40" cy="24" r="15" fill="url(#skinWarm)"/>
+                    <circle cx="40" cy="24" r="15" fill="url(#skin3DWarm)"/>
                     <path d="M24,22 C26,6 54,6 56,22 Z" fill="#1e272e"/>
                     <circle cx="35" cy="23" r="2.2" fill="#111"/><circle cx="45" cy="23" r="2.2" fill="#111"/>
                     <path d="M35,30 Q40,34 45,30" stroke="#c0392b" stroke-width="2" fill="none"/>
@@ -1215,7 +1231,7 @@
 
             <div class="cartoon-char" id="shop-friend3" style="left: -275px;">
                 <svg class="char-body-svg" width="68" height="88" viewBox="0 0 80 100">
-                    <circle cx="40" cy="24" r="15" fill="url(#skinLight)"/>
+                    <circle cx="40" cy="24" r="15" fill="url(#skin3DLight)"/>
                     <path d="M24,22 C26,8 54,8 56,22 Z" fill="#3d3d3d"/>
                     <circle cx="35" cy="23" r="2.2" fill="#111"/><circle cx="45" cy="23" r="2.2" fill="#111"/>
                     <path d="M35,30 Q40,34 45,30" stroke="#c0392b" stroke-width="2" fill="none"/>
@@ -1244,7 +1260,7 @@
                 <span>🎈</span><span>🎊</span><span>✨ HAPPY BIRTHDAY ✨</span><span>🎊</span><span>🎈</span>
             </div>
 
-            <!-- ছবির মতো সাদা ফ্রেম ও ৩ খুঁটিওয়ালা সাইনবোর্ড -->
+            <!-- ৩ খুঁটিওয়ালা সাইনবোর্ড -->
             <div class="party-signboard" id="party-signboard">
                 <div class="billboard-board">
                     <img src="" id="signboard-img" alt="Birthday Star">
@@ -1266,59 +1282,42 @@
                 <div class="cake-knife" id="party-knife">🔪</div>
             </div>
 
-            <!-- বার্থডে বয়: রিয়ান -->
+            <!-- বার্থডে স্টার: রিয়ান (এডমিন থেকে ছেলে/মেয়ে সিলেক্ট অনুযায়ী ডাইনামিক হবে) -->
             <div class="cartoon-char" id="party-riyan" style="left: -110px;">
                 <div class="speech-bubble" id="bubble-party-riyan"></div>
-                <svg class="char-body-svg" width="74" height="94" viewBox="0 0 80 100">
-                    <rect x="36" y="36" width="8" height="8" rx="3" fill="url(#skinLight)"/>
-                    <circle cx="40" cy="24" r="16" fill="url(#skinLight)"/>
-                    <path d="M22,22 C22,6 58,6 58,22 C54,13 46,12 40,13 C32,12 25,14 22,22 Z" fill="#141824"/>
-                    <circle cx="34.5" cy="23.5" r="2.3" fill="#111"/>
-                    <circle cx="45.5" cy="23.5" r="2.3" fill="#111"/>
-                    <rect id="riyan-blindfold" class="blindfold-band" x="23" y="19" width="34" height="8" rx="3" fill="#111111" stroke="#FFD700" stroke-width="1.2"/>
-                    <path d="M35,31 Q40,36 45,31" stroke="#c0392b" stroke-width="2.2" fill="none"/>
-                    <line x1="25" y1="45" x2="12" y2="62" stroke="url(#suitBlue)" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="55" y1="45" x2="72" y2="56" stroke="url(#suitBlue)" stroke-width="6" stroke-linecap="round"/>
-                    <rect x="25" y="41" width="30" height="33" rx="9" fill="url(#suitBlue)"/>
-                    <polygon points="35,41 40,49 45,41" fill="#ffffff"/>
-                    <rect x="29" y="72" width="9" height="20" rx="4" fill="#1e272e"/>
-                    <rect x="42" y="72" width="9" height="20" rx="4" fill="#1e272e"/>
-                    <rect x="26" y="90" width="13" height="6" rx="3" fill="#fff"/>
-                    <rect x="41" y="90" width="13" height="6" rx="3" fill="#fff"/>
-                </svg>
+                <div class="hero-party-mount"></div>
                 <div class="char-tag tag-hero">Riyan</div>
             </div>
 
             <!-- রাকিব -->
             <div class="cartoon-char" id="party-rakib" style="left: -180px;">
                 <div class="speech-bubble" id="bubble-party-rakib"></div>
-                <svg class="char-body-svg" width="74" height="94" viewBox="0 0 80 100">
-                    <polygon points="40,0 29,14 51,14" fill="#FFD700"/>
-                    <circle cx="40" cy="0" r="2.5" fill="#ff3e88"/>
-                    <rect x="36" y="37" width="8" height="8" rx="3" fill="url(#skinWarm)"/>
-                    <circle cx="40" cy="25" r="16" fill="url(#skinWarm)"/>
-                    <path d="M23,23 C25,9 55,9 57,23 C51,16 45,15 40,15 C34,15 28,16 23,23 Z" fill="#2c3e50"/>
-                    <circle cx="34.5" cy="24.5" r="2.3" fill="#111"/><circle cx="45.5" cy="24.5" r="2.3" fill="#111"/>
-                    <circle id="rakib-tear" cx="34" cy="29" r="2" fill="#00efff" opacity="0"/>
-                    <path id="rakib-mouth" d="M35,32 Q40,37 45,32" stroke="#c0392b" stroke-width="2.2" fill="none"/>
-                    <line x1="25" y1="46" x2="14" y2="66" stroke="url(#suitPink)" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="55" y1="46" x2="72" y2="58" stroke="url(#suitPink)" stroke-width="6" stroke-linecap="round"/>
-                    <rect x="25" y="42" width="30" height="33" rx="9" fill="url(#suitPink)"/>
-                    <polygon points="35,42 40,50 45,42" fill="#ffeaa7"/>
-                    <rect x="29" y="73" width="9" height="20" rx="4" fill="#1e272e"/>
-                    <rect x="42" y="73" width="9" height="20" rx="4" fill="#1e272e"/>
-                    <rect x="26" y="91" width="13" height="6" rx="3" fill="#FFD700"/>
-                    <rect x="41" y="91" width="13" height="6" rx="3" fill="#FFD700"/>
+                <svg class="char-body-svg" width="76" height="96" viewBox="0 0 80 105">
+                    <polygon points="40,0 30,11 50,11" fill="#FFD700"/>
+                    <rect x="35" y="42" width="10" height="8" rx="3" fill="url(#skin3DWarm)"/>
+                    <path d="M21,26 C18,12 28,6 35,8 L38,4 L43,8 L49,5 L52,10 C60,11 62,19 59,26 C55,17 48,15 40,15 C31,15 24,18 21,26 Z" fill="url(#hairBrown3D)"/>
+                    <ellipse cx="40" cy="28" rx="17.5" ry="16" fill="url(#skin3DWarm)"/>
+                    <ellipse cx="33" cy="26.5" rx="3.3" ry="3.7" fill="#2c1608"/><circle cx="34.2" cy="25.2" r="1.2" fill="#fff"/>
+                    <ellipse cx="47" cy="26.5" rx="3.3" ry="3.7" fill="#2c1608"/><circle cx="48.2" cy="25.2" r="1.2" fill="#fff"/>
+                    <circle id="rakib-tear" cx="32" cy="31.5" r="2.2" fill="#00efff" opacity="0"/>
+                    <path id="rakib-mouth" d="M34,34.5 Q40,39.5 46,34.5" stroke="#b33939" stroke-width="2.2" fill="none"/>
+                    <line x1="23" y1="52" x2="12" y2="71" stroke="url(#suitPurple3D)" stroke-width="6.5" stroke-linecap="round"/>
+                    <line x1="57" y1="52" x2="68" y2="71" stroke="url(#suitPurple3D)" stroke-width="6.5" stroke-linecap="round"/>
+                    <rect x="23" y="48" width="34" height="31" rx="10" fill="url(#suitPurple3D)"/>
+                    <rect x="28" y="77" width="9.5" height="20" rx="4.5" fill="#1e272e"/>
+                    <rect x="42.5" y="77" width="9.5" height="20" rx="4.5" fill="#1e272e"/>
+                    <rect x="25" y="95" width="13.5" height="6.5" rx="3.2" fill="#FFD700"/>
+                    <rect x="41.5" y="95" width="13.5" height="6.5" rx="3.2" fill="#FFD700"/>
                 </svg>
                 <div class="char-tag tag-friend">Rakib</div>
             </div>
 
-            <!-- বন্ধু ১: সিয়াম (প্রথমে কেক বক্স নিয়ে আসবে) -->
+            <!-- বন্ধু ১: সিয়াম -->
             <div class="cartoon-char" id="party-friend1" style="right: -110px;">
                 <div class="speech-bubble" id="bubble-party-f1"></div>
                 <div class="carried-cake" id="siam-carrying-box">🎁</div>
                 <svg class="char-body-svg" width="70" height="90" viewBox="0 0 80 100">
-                    <circle cx="40" cy="24" r="15" fill="url(#skinLight)"/>
+                    <circle cx="40" cy="24" r="15" fill="url(#skin3DLight)"/>
                     <path d="M24,22 C26,7 54,7 56,22 Z" fill="#2d3436"/>
                     <circle cx="35" cy="23" r="2.2" fill="#111"/><circle cx="45" cy="23" r="2.2" fill="#111"/>
                     <path d="M35,30 Q40,34 45,30" stroke="#c0392b" stroke-width="2" fill="none"/>
@@ -1337,7 +1336,7 @@
             <div class="cartoon-char" id="party-friend2" style="right: -175px;">
                 <div class="speech-bubble" id="bubble-party-f2"></div>
                 <svg class="char-body-svg" width="70" height="90" viewBox="0 0 80 100">
-                    <circle cx="40" cy="24" r="15" fill="url(#skinWarm)"/>
+                    <circle cx="40" cy="24" r="15" fill="url(#skin3DWarm)"/>
                     <path d="M24,22 C26,6 54,6 56,22 Z" fill="#1e272e"/>
                     <circle cx="35" cy="23" r="2.2" fill="#111"/><circle cx="45" cy="23" r="2.2" fill="#111"/>
                     <path d="M35,30 Q40,34 45,30" stroke="#c0392b" stroke-width="2" fill="none"/>
@@ -1486,6 +1485,7 @@
             badgeName: "CSB CEO - BIJOY VAI",
             creditName: "Net Joddha",
             music: "song.mp3",
+            heroGender: "girl", // 'girl' অথবা 'boy' (এডমিন থেকে পরিবর্তনযোগ্য)
             introSub: "A LITTLE SURPRISE FOR YOU",
             introHey: "Hey",
             introDesc: "I made something special just for you.",
@@ -1494,8 +1494,8 @@
             friendCharName: "Rakib",
             friend1Name: "Siam",
             friend2Name: "Arif",
-            dlgHi: "Hi Rakib 👋",
-            dlgHlw: "Hlw Riyan 😊",
+            dlgHi: "Hi Riyan 👋",
+            dlgHlw: "Hlw Rakib 😊",
             dlgWish: "Happy Birthday Riyan! 🎂🎉",
             dlgShop: "ভাই, সেরা স্পেশাল কেকটা দিন! 🎂",
             dlgOpenEyes: "এবার চোখ খোলো রিয়ান! 🎉",
@@ -1535,6 +1535,103 @@
             chatId: "8286027092"
         };
 
+        // ছবির আদলে ৩ডি মেয়ে ও ছেলে কার্টুন SVG জেনারেটর
+        function getHeroCartoonSVG(gender, withBlindfold = false) {
+            const blindfoldMarkup = withBlindfold
+                ? `<rect id="riyan-blindfold" class="blindfold-band" x="21" y="21" width="38" height="9" rx="3.5" fill="#111111" stroke="#FFD700" stroke-width="1.3"/>`
+                : ``;
+
+            if (gender === "girl") {
+                // ছবির কিউট মেয়ে কার্টুন (উঁচু খোঁপা, লাল হেয়ারব্যান্ড পুঁতি, বড় চোখ, ক্রিম সোয়েটার)
+                return `
+                <svg class="char-body-svg" width="80" height="102" viewBox="0 0 80 105">
+                    <!-- উঁচু চুলের খোঁপা (Top Bun) -->
+                    <circle cx="48" cy="9" r="9.5" fill="url(#hairBrown3D)"/>
+                    <ellipse cx="46" cy="7" rx="4" ry="2.2" fill="#8c5a3c" opacity="0.5"/>
+                    <!-- পেছনের চুল -->
+                    <path d="M21,26 C20,10 60,10 59,26 L61,40 C56,43 24,43 19,40 Z" fill="url(#hairBrown3D)"/>
+                    <!-- গলা ও কান -->
+                    <rect x="35.5" y="42" width="9" height="8" rx="3" fill="url(#skin3DLight)"/>
+                    <circle cx="21" cy="30" r="3.6" fill="url(#skin3DLight)"/>
+                    <circle cx="59" cy="30" r="3.6" fill="url(#skin3DLight)"/>
+                    <!-- মুখমণ্ডল -->
+                    <ellipse cx="40" cy="29" rx="17.5" ry="15.5" fill="url(#skin3DLight)"/>
+                    <!-- সামনের ব্যাংস (Front Bangs) -->
+                    <path d="M22,25 C23,12 57,12 58,25 C52,19 46,20 40,22 C34,20 28,19 22,25 Z" fill="url(#hairBrown3D)"/>
+                    <!-- লাল হেয়ারব্যান্ড পুঁতি (ছবির মতো) -->
+                    <circle cx="31" cy="14.5" r="2.3" fill="#c0392b"/>
+                    <circle cx="35.5" cy="13.5" r="2.3" fill="#e74c3c"/>
+                    <circle cx="40" cy="13" r="2.3" fill="#c0392b"/>
+                    <circle cx="44.5" cy="13.5" r="2.3" fill="#e74c3c"/>
+                    <circle cx="49" cy="14.5" r="2.3" fill="#c0392b"/>
+                    <!-- বড় কিউট 3D চোখ -->
+                    <ellipse cx="32.5" cy="27.5" rx="3.8" ry="4.2" fill="#2c1608"/>
+                    <circle cx="33.8" cy="26" r="1.5" fill="#ffffff"/>
+                    <circle cx="31.5" cy="29" r="0.7" fill="#ffffff"/>
+                    <ellipse cx="47.5" cy="27.5" rx="3.8" ry="4.2" fill="#2c1608"/>
+                    <circle cx="48.8" cy="26" r="1.5" fill="#ffffff"/>
+                    <circle cx="46.5" cy="29" r="0.7" fill="#ffffff"/>
+                    <!-- গোলাপি ব্লাশ ও মিষ্টি হাসি -->
+                    <ellipse cx="26.5" cy="32" rx="3.4" ry="1.7" fill="#ff7675" opacity="0.6"/>
+                    <ellipse cx="53.5" cy="32" rx="3.4" ry="1.7" fill="#ff7675" opacity="0.6"/>
+                    <path d="M35.5,35 Q40,39 44.5,35" stroke="#d63031" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    ${blindfoldMarkup}
+                    <!-- ক্রিম ওভারসাইজড সোয়েটার ও হাত -->
+                    <line x1="23" y1="52" x2="12" y2="70" stroke="url(#suitCream3D)" stroke-width="7" stroke-linecap="round"/>
+                    <circle cx="12" cy="71" r="3.3" fill="url(#skin3DLight)"/>
+                    <line x1="57" y1="52" x2="68" y2="70" stroke="url(#suitCream3D)" stroke-width="7" stroke-linecap="round"/>
+                    <circle cx="68" cy="71" r="3.3" fill="url(#skin3DLight)"/>
+                    <rect x="23" y="48" width="34" height="30" rx="11" fill="url(#suitCream3D)" stroke="#f8a5c2" stroke-width="1"/>
+                    <!-- স্কার্ট/প্যান্ট ও কিউট জুতো -->
+                    <path d="M25,75 L55,75 L58,86 L22,86 Z" fill="#ff6b81"/>
+                    <rect x="30" y="85" width="7" height="12" rx="3.5" fill="url(#skin3DLight)"/>
+                    <rect x="43" y="85" width="7" height="12" rx="3.5" fill="url(#skin3DLight)"/>
+                    <rect x="27" y="95" width="12" height="6.5" rx="3.2" fill="#ff4b8b"/>
+                    <rect x="41" y="95" width="12" height="6.5" rx="3.2" fill="#ff4b8b"/>
+                </svg>`;
+            } else {
+                // ছবির ছেলে কার্টুন (স্পাইকি চুল, পার্পল সোয়েটার)
+                return `
+                <svg class="char-body-svg" width="80" height="102" viewBox="0 0 80 105">
+                    <rect x="35" y="42" width="10" height="8" rx="3" fill="url(#skin3DLight)"/>
+                    <circle cx="21" cy="29" r="3.8" fill="url(#skin3DLight)"/>
+                    <circle cx="59" cy="29" r="3.8" fill="url(#skin3DLight)"/>
+                    <path d="M21,26 C18,12 28,6 35,8 L38,4 L43,8 L49,5 L52,10 C60,11 62,19 59,26 C55,17 48,15 40,15 C31,15 24,18 21,26 Z" fill="url(#hairBrown3D)"/>
+                    <ellipse cx="40" cy="28" rx="17.5" ry="16" fill="url(#skin3DLight)"/>
+                    <path d="M28,21 Q33,18.5 37,21" stroke="#3b2314" stroke-width="2.1" fill="none" stroke-linecap="round"/>
+                    <path d="M43,21 Q47,18.5 52,21" stroke="#3b2314" stroke-width="2.1" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="33" cy="26.5" rx="3.4" ry="3.8" fill="#2c1608"/>
+                    <circle cx="34.2" cy="25.2" r="1.3" fill="#ffffff"/>
+                    <ellipse cx="47" cy="26.5" rx="3.4" ry="3.8" fill="#2c1608"/>
+                    <circle cx="48.2" cy="25.2" r="1.3" fill="#ffffff"/>
+                    <ellipse cx="27" cy="31" rx="3.2" ry="1.6" fill="#ff7675" opacity="0.55"/>
+                    <ellipse cx="53" cy="31" rx="3.2" ry="1.6" fill="#ff7675" opacity="0.55"/>
+                    <path d="M34,34.5 Q40,39.5 46,34.5" stroke="#b33939" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                    ${blindfoldMarkup}
+                    <line x1="23" y1="52" x2="12" y2="71" stroke="url(#suitPurple3D)" stroke-width="6.5" stroke-linecap="round"/>
+                    <circle cx="12" cy="72" r="3.4" fill="url(#skin3DLight)"/>
+                    <line x1="57" y1="52" x2="68" y2="71" stroke="url(#suitPurple3D)" stroke-width="6.5" stroke-linecap="round"/>
+                    <circle cx="68" cy="72" r="3.4" fill="url(#skin3DLight)"/>
+                    <rect x="23" y="48" width="34" height="31" rx="10" fill="url(#suitPurple3D)"/>
+                    <path d="M33,48 Q40,54 47,48" stroke="#a29bfe" stroke-width="2" fill="none"/>
+                    <rect x="28" y="77" width="9.5" height="20" rx="4.5" fill="#1e272e"/>
+                    <rect x="42.5" y="77" width="9.5" height="20" rx="4.5" fill="#1e272e"/>
+                    <rect x="25" y="95" width="13.5" height="6.5" rx="3.2" fill="#ffffff"/>
+                    <rect x="41.5" y="95" width="13.5" height="6.5" rx="3.2" fill="#ffffff"/>
+                </svg>`;
+            }
+        }
+
+        function renderHeroCharacters() {
+            const gender = config.heroGender || "girl";
+            document.querySelectorAll('.hero-avatar-mount').forEach(el => {
+                el.innerHTML = getHeroCartoonSVG(gender, false);
+            });
+            document.querySelectorAll('.hero-party-mount').forEach(el => {
+                el.innerHTML = getHeroCartoonSVG(gender, true);
+            });
+        }
+
         function applyConfigData() {
             document.title = config.pageTitle || ("Happy Birthday " + config.name);
             document.querySelectorAll('.dynamic-name').forEach(e => e.innerText = config.name);
@@ -1551,6 +1648,8 @@
             document.querySelectorAll('.tag-f1').forEach(e => e.innerText = config.friend1Name);
             document.querySelectorAll('.tag-f2').forEach(e => e.innerText = config.friend2Name);
 
+            renderHeroCharacters();
+
             document.getElementById('signboard-img').src = config.signboardPic || config.profilePic;
             document.getElementById('signboard-name').innerText = config.badgeName || config.heroCharName;
 
@@ -1562,10 +1661,11 @@
             document.getElementById('ui-comment-title').innerText = config.commentTitle;
             document.getElementById('msgInput').placeholder = config.commentPlaceholder;
             
-            const audioSource = document.getElementById('bg-music').querySelector('source');
-            if (audioSource.src !== config.music) {
-                audioSource.src = config.music;
-                document.getElementById('bg-music').load();
+            const audioEl = document.getElementById('bg-music');
+            const audioSource = audioEl.querySelector('source');
+            if (config.music && audioSource.getAttribute('src') !== config.music) {
+                audioSource.setAttribute('src', config.music);
+                audioEl.load();
             }
             document.getElementById('main-profile-img').src = config.profilePic;
         }
@@ -1616,6 +1716,7 @@
         }
 
         // ৩য় পেজ: গাছ ও রাকিব-রিয়ানের দেখা হওয়া
+        // ক্রম: ১ম Rakib -> Hi, এরপর Riyan -> Hlw, তারপর আবার Rakib -> Happy Birthday
         function runTreeAndCartoonStory() {
             const riyan = document.getElementById('char-riyan');
             const rakib = document.getElementById('char-rakib');
@@ -1631,21 +1732,24 @@
                 rakib.style.right = "22%";
             }, 2600);
 
+            // ১ম: Rakib বলবে Hi
             setTimeout(() => {
                 riyan.classList.remove('walking');
                 rakib.classList.remove('walking');
-                bubbleRiyan.innerText = config.dlgHi;
-                bubbleRiyan.classList.add('show');
+                bubbleRakib.innerText = config.dlgHi;
+                bubbleRakib.classList.add('show');
             }, 6000);
 
-            setTimeout(() => {
-                bubbleRiyan.classList.remove('show');
-                bubbleRakib.innerText = config.dlgHlw;
-                bubbleRakib.classList.add('show');
-            }, 8500);
-
+            // ২য়: Riyan বলবে Hlw
             setTimeout(() => {
                 bubbleRakib.classList.remove('show');
+                bubbleRiyan.innerText = config.dlgHlw;
+                bubbleRiyan.classList.add('show');
+            }, 8500);
+
+            // ৩য়: আবার Rakib বলবে Happy Birthday
+            setTimeout(() => {
+                bubbleRiyan.classList.remove('show');
                 setTimeout(() => {
                     bubbleRakib.innerText = config.dlgWish;
                     bubbleRakib.classList.add('bday-highlight', 'show');
@@ -1731,7 +1835,7 @@
             }, 11200);
         }
 
-        // ৫ম পেজ: প্রথমে টেবিল -> একজন কেক বক্স আনবে -> Unbox করবে -> চোখ বন্ধ করে আনবে -> কেক কাটলে চারপাশে বোম ও বেলুন ফাটবে -> এক এক করে গিফট দিবে
+        // ৫ম পেজ: টেবিল -> কেক বক্স -> Unbox -> চোখ বন্ধ করে আনা -> কেক কাটা -> গিফট
         function runCakePartyStory() {
             const banner = document.getElementById('party-banner');
             const table = document.getElementById('party-table');
@@ -1744,21 +1848,18 @@
             const rakib = document.getElementById('party-rakib');
             const f1 = document.getElementById('party-friend1');
             const f2 = document.getElementById('party-friend2');
-            const blindfold = document.getElementById('riyan-blindfold');
             const knife = document.getElementById('party-knife');
             const bubbleRakib = document.getElementById('bubble-party-rakib');
             const bubbleRiyan = document.getElementById('bubble-party-riyan');
             const bubbleF1 = document.getElementById('bubble-party-f1');
             const bubbleF2 = document.getElementById('bubble-party-f2');
 
-            // ধাপ ১: প্রথমে শুধু টেবিল ও ব্যানার সুন্দর করে সাজানো হবে
             setTimeout(() => {
                 banner.classList.add('show');
                 table.classList.add('show');
                 statusText.innerText = "প্রথমে পার্টি টেবিল সাজানো হলো... ✨";
             }, 400);
 
-            // ধাপ ২: একজন কার্টুন (Siam) কেকের বক্স হাতে করে টেবিলের কাছে আনবে
             setTimeout(() => {
                 statusText.innerText = "এবার টেবিলের ওপর স্পেশাল কেক আনা হচ্ছে... 🎁";
                 siamCarryBox.classList.add('visible');
@@ -1768,7 +1869,6 @@
                 f2.style.right = "10%";
             }, 1800);
 
-            // ধাপ ৩: টেবিলের ওপর কেক বক্স রাখা হবে
             setTimeout(() => {
                 f1.classList.remove('walking');
                 f2.classList.remove('walking');
@@ -1778,17 +1878,14 @@
                 bubbleF1.classList.add('show');
             }, 4600);
 
-            // ধাপ ৪: সুন্দর অ্যানিমেশন আকারে কেক Unbox হবে!
             setTimeout(() => {
                 statusText.innerText = "কেকটি সুন্দর করে Unbox করা হচ্ছে... 🎂✨";
                 bubbleF1.classList.remove('show');
                 packageBox.classList.add('unboxed');
                 cakeIcon.classList.add('revealed');
-                // আনবক্সিং স্পার্কল ইফেক্ট
                 popBalloonEffect(window.innerWidth * 0.48, window.innerHeight * 0.65, '#FFD700', document.getElementById('bg-effects'));
             }, 6200);
 
-            // ধাপ ৫: চোখ বন্ধ অবস্থায় রিয়ানকে নিয়ে আসা হবে
             setTimeout(() => {
                 statusText.innerText = "চোখ বন্ধ করে সারপ্রাইজ দিতে আনা হচ্ছে... 🙈";
                 riyan.classList.add('walking');
@@ -1797,7 +1894,6 @@
                 rakib.style.left = "12%";
             }, 7800);
 
-            // ধাপ ৬: চোখের বাঁধন খোলা হবে
             setTimeout(() => {
                 riyan.classList.remove('walking');
                 rakib.classList.remove('walking');
@@ -1806,13 +1902,13 @@
             }, 10800);
 
             setTimeout(() => {
-                blindfold.style.opacity = "0";
+                const blindfold = document.getElementById('riyan-blindfold');
+                if (blindfold) blindfold.style.opacity = "0";
                 bubbleRakib.classList.remove('show');
                 bubbleRiyan.innerText = config.dlgWow;
                 bubbleRiyan.classList.add('show');
             }, 12600);
 
-            // ধাপ ৭: সবাই একসাথে হাত ধরে কেক কাটবে + 360° কেক + সাইনবোর্ড + চারপাশে বোম ও বেলুন ফাটবে!
             setTimeout(() => {
                 bubbleRiyan.classList.remove('show');
                 statusText.innerText = "সবাই মিলে কেক কাটা হচ্ছে! শুভ জন্মদিন! 🎂💥🎈";
@@ -1829,11 +1925,9 @@
                 bubbleF1.innerText = config.dlgTogether;
                 bubbleF1.classList.add('bday-highlight', 'show');
 
-                // চারপাশে একসাথে বোম ও বেলুন ফাটার উৎসব!
                 triggerMassiveCelebration();
             }, 14600);
 
-            // ধাপ ৮: সবাইকে কেক খাওয়ানো হবে
             setTimeout(() => {
                 knife.classList.remove('cutting');
                 statusText.innerText = "সবাই মিলে কেক খাচ্ছে ও আনন্দ করছে... 🍰🥳";
@@ -1849,14 +1943,13 @@
                 }, 1800);
             }, 17600);
 
-            // ধাপ ৯: সবাই মজা করবে, রাকিব একপাশে Sad Mood-এ দাঁড়াবে
             setTimeout(() => {
                 bubbleF1.classList.remove('show');
                 rakib.classList.add('walking');
                 rakib.style.left = "2%";
                 rakib.style.transform = "scaleX(-1)";
                 rakib.classList.add('sad-mood');
-                document.getElementById('rakib-mouth').setAttribute('d', 'M35,36 Q40,31 45,36');
+                document.getElementById('rakib-mouth').setAttribute('d', 'M35,38 Q40,33 45,38');
                 document.getElementById('rakib-tear').setAttribute('opacity', '1');
 
                 [riyan, f1, f2].forEach(c => c.classList.add('celebrating'));
@@ -1866,8 +1959,6 @@
                 }, 2000);
             }, 19800);
 
-            // ধাপ ১০: এক এক করে সবাই গিফট দিবে!
-            // ১ম গিফট (Siam দিবে)
             setTimeout(() => {
                 statusText.innerText = "এক এক করে সবাই জন্মদিনের গিফট দিচ্ছে... 🎁✨";
                 [riyan, f1, f2].forEach(c => c.classList.remove('celebrating'));
@@ -1879,7 +1970,6 @@
                 g1.style.transform = "translate(-48px, -22px) scale(1.25)";
             }, 22200);
 
-            // ২য় গিফট (Arif দিবে)
             setTimeout(() => {
                 bubbleF1.classList.remove('show');
                 bubbleF2.innerText = "আমার পক্ষ থেকেও স্পেশাল গিফট! 🎀";
@@ -1890,7 +1980,6 @@
                 g2.style.transform = "translate(-68px, -16px) scale(1.25)";
             }, 24400);
 
-            // ৩য় গিফট ও ধন্যবাদ
             setTimeout(() => {
                 bubbleF2.classList.remove('show');
                 const g3 = document.getElementById('gift-3');
@@ -1901,18 +1990,15 @@
                 bubbleRiyan.classList.add('bday-highlight', 'show');
             }, 26600);
 
-            // ধাপ ১১: ৩-২-১ কাউন্টডাউন শুরু হবে
             setTimeout(() => {
                 startCountdown();
             }, 29500);
         }
 
-        // কেক কাটার সময় চারপাশে বোম ও বেলুন ফাটার ফাংশন
         function triggerMassiveCelebration() {
             const container = document.getElementById('bg-effects');
             const colors = ['#FF4D4D', '#4DFF4D', '#4D4DFF', '#FFD700', '#FF00DE', '#00EFFF'];
 
-            // ১. স্ক্রিনে থাকা বেলুনগুলো পপ করে ফাটবে
             const existingBalloons = document.querySelectorAll('.balloon');
             existingBalloons.forEach((b, idx) => {
                 if (idx < 12) {
@@ -1927,7 +2013,6 @@
                 }
             });
 
-            // ২. চারপাশে একসাথে ১২টি বড় বোম/ফায়ারওয়ার্কস ফাটবে
             for (let i = 0; i < 12; i++) {
                 setTimeout(() => {
                     createFirework(container, colors);
